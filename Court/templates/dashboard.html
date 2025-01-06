@@ -1,0 +1,420 @@
+<!doctype html>
+<html class="no-js" lang="">
+{% load static %}
+{% include 'includes/head.html' %}
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %} 
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcubs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>{{request.user.role}} Dashboard</h3>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>{{request.user.role}}</li>
+                    </ul>
+                </div>
+                <!-- Breadcubs Area End Here -->
+                <div class="row">
+                    <!-- Dashboard summery Start Here -->
+                    <div class="col-12 col-4-xxxl">
+                        <div class="row">
+                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
+                                <div class="dashboard-summery-two">
+                                    <div class="item-icon bg-light-magenta">
+                                        <i class="flaticon-classmates text-magenta"></i>
+                                    </div>
+                                    <div class="item-content">
+                                        <div class="item-number"><span class="counter" data-num="{{prisoners| length}}"></span></div>
+                                        <div class="item-title">Total Prisoner</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
+                                <div class="dashboard-summery-two">
+                                    <div class="item-icon bg-light-blue">
+                                        <i class="flaticon-shopping-list text-blue"></i>
+                                    </div>
+                                    <div class="item-content">
+                                        <div class="item-number"><span class="counter" data-num="{{appointments | length }}">{{appointments | length }}</span></div>
+                                        <div class="item-title">Total Appointment</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
+                                <div class="dashboard-summery-two">
+                                    <div class="item-icon bg-light-yellow">
+                                        <i class="flaticon-user text-orange"></i>
+                                    </div>
+                                    <div class="item-content">
+                                        <div class="item-number"><span class="counter" data-num="{{visitors | length }}">{{visitors | length }}</span></div>
+                                        <div class="item-title">Total Visitor</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6-xxxl col-lg-3 col-sm-6 col-12">
+                                <div class="dashboard-summery-two">
+                                    <div class="item-icon bg-light-red">
+                                        <i class="flaticon-checklist text-red"></i>
+                                    </div>
+                                    <div class="item-content">
+                                        <div class="item-number"><span class="counter" data-num="{{activities | length }}"></span></div>
+                                        <div class="item-title">Total Activity</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dashboard summery End Here -->
+                    
+                    <!-- Students Chart End Here -->
+                    <div class="col-lg-6 col-4-xxxl col-xl-6">
+                        
+                        <div class="card dashboard-card-three">
+                            <div class="card-body">
+                                <div class="heading-layout1">
+                                    <div class="item-title">
+                                        <h3>Prisoners</h3>
+                                    </div>
+                                   <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" 
+                                        data-toggle="dropdown" aria-expanded="false">...</a>
+                
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="doughnut-chart-wrap">
+                                    <div class="chart-container" style="position: relative; height: 270px;">
+                                        <canvas id="prisonersGenderChart"></canvas>
+                                    </div>
+                                </div>
+                                <div class="student-report">
+                                    <div class="student-count pseudo-bg-blue">
+                                        <h4 class="item-title">Male Students</h4>
+                                        <div class="item-number">{{male_prisoners_count}}</div>
+                                    </div>
+                                    <div class="student-count pseudo-bg-yellow">
+                                        <h4 class="item-title">Female Students</h4>
+                                        <div class="item-number">{{female_prisoners_count}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Students Chart End Here -->
+                    <!-- Notice Board Start Here -->
+                    <div class="col-lg-6 col-4-xxxl col-xl-6">
+                        <div class="card dashboard-card-six">
+                            <div class="card-body">
+                                <div class="heading-layout1 mg-b-17">
+                                    <div class="item-title">
+                                        <h3>Notifications</h3>
+                                    </div>
+                                   <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" 
+                                        data-toggle="dropdown" aria-expanded="false">...</a>
+                
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notice-box-wrap">
+                                    {% for notification in notfications %}
+                                    <div class="notice-list">
+                                        <div class="post-date bg-skyblue">{{notification.created_at}}</div>
+                                        <h6 class="notice-title"><a href="#">{{notification.message}}</a></h6>
+                                        <div class="entry-meta"><a href='{% url 'notifications_mark_as_read' notification.id %}'>Mark as read </a></div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Notice Board End Here -->
+                </div>
+                <!-- Student Table Area Start Here -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card dashboard-card-eleven">
+                            <div class="card-body">
+                                <div class="heading-layout1">
+                                    <div class="item-title">
+                                        <h3>Reports</h3>
+                                    </div>
+                                   <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" 
+                                        data-toggle="dropdown" aria-expanded="false">...</a>
+                
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <!-- Discipline Chart Start Here -->
+                                    <div class="col-lg-6 col-4-xxxl col-xl-6">
+                                        <div class="card dashboard-card-three">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Discipline by Type</h5>
+                                                <div class="chart-container" style="position: relative; height: 300px;">
+                                                    <canvas id="disciplineTypeChart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Discipline Chart End Here -->
+                                    
+                                    <!-- Visitors by Day Chart Start Here -->
+                                    <div class="col-lg-6 col-4-xxxl col-xl-6">
+                                        <div class="card dashboard-card-three">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Visitors by Day</h5>
+                                                <div class="chart-container" style="position: relative; height: 300px;">
+                                                    <canvas id="visitorsByDayChart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Visitors by Day Chart End Here -->
+                                    <div class="col-lg-6 col-4-xxxl col-xl-6">
+                                        <div class="card dashboard-card-three">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Activities by Type</h5>
+                                                <div class="chart-container" style="position: relative; height: 300px;">
+                                                    <canvas id="activitiesByTypeChart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card dashboard-card-three">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Appointments by Time Slot</h5>
+                                        <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
+                                            <canvas id="appointmentsByTimeSlotChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Student Table Area End Here -->
+                {% include 'includes/footer_copyright.html'%}
+                
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('prisonersGenderChart').getContext('2d');
+            var prisonersGenderChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Male', 'Female'],
+                    datasets: [{
+                        label: 'Prisoners by Gender',
+                        data: [{{ male_prisoners_count }}, {{ female_prisoners_count }}],
+                        backgroundColor: ['#36A2EB', '#FFCE56'], // Use the colors defined in the CSS classes
+                        hoverBackgroundColor: ['#36A2EB', '#FFCE56']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        position: 'top',
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('disciplineTypeChart').getContext('2d');
+            var disciplineTypeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ discipline_types|safe }},
+                    datasets: [{
+                        label: 'Discipline by Type',
+                        data: {{ discipline_counts|safe }},
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    legend: {
+                        position: 'top',
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        });
+    </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('visitorsByDayChart').getContext('2d');
+        var visitorsByDayChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ visitor_days|safe }},
+                datasets: [{
+                    label: 'Visitors by Day',
+                    data: {{ visitor_counts|safe }},
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)', // Semi-transparent yellow for the fill
+                    borderColor: 'rgba(255, 206, 86, 1)', // Solid yellow for the line
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4 // Smooth curves
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                legend: {
+                    position: 'top',
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('activitiesByTypeChart').getContext('2d');
+        var activitiesByTypeChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: {{ activity_types|safe }},
+                datasets: [{
+                    label: 'Activities by Type',
+                    data: {{ activity_counts|safe }},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: 'top',
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('appointmentsByTimeSlotChart').getContext('2d');
+        var appointmentsByTimeSlotChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ time_slots|safe }},
+                datasets: [{
+                    label: 'Appointments by Time Slot',
+                    data: {{ appointment_counts|safe }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Semi-transparent color for the bars
+                    borderColor: 'rgba(75, 192, 192, 1)', // Solid color for the bars
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                legend: {
+                    position: 'top',
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+    });
+</script>
+    {% include 'includes/footer.html' %}
+</body>
+
+
+<!-- Mirrored from www.radiustheme.com/demo/html/psdboss/akkhor/akkhor/index5.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 16 Apr 2024 08:39:32 GMT -->
+</html>

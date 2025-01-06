@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+{% include 'includes/head.html' %}
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/prison_sidebar.html'%}
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcrumbs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Prison</h3>
+                    <ul>
+                        <li>
+                            <a href="">Home</a>
+                        </li>
+                        <li>Temporary Prisoner Form</li>
+                    </ul>
+                </div>
+                <!-- Breadcrumbs Area End Here -->
+                <!-- Admit Form Area Start Here -->
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>Add New Temporary Prisoner</h3>
+                            </div>
+                        </div>
+                        <form id="temp-prisoner-form" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" id="temp-prisoner-id" name="temp-prisoner-id">
+                            <div class="row">
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_fname">First Name *</label>
+                                    {{ form.pri_fname }}
+                                    {% if form.pri_fname.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.pri_fname.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_mname">Middle Name *</label>
+                                    {{ form.pri_mname }}
+                                    {% if form.pri_mname.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.pri_mname.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_lname">Last Name *</label>
+                                    {{ form.pri_lname }}
+                                    {% if form.pri_lname.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.pri_lname.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_gender">Gender *</label>
+                                    {{ form.pri_gender }}
+                                    {% if form.pri_gender.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.pri_gender.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_age">Age *</label>
+                                    {{ form.age }}
+                                    {% if form.age.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.age.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_nationality">Nationality</label>
+                                    {{ form.pri_nationality }}
+                                    {% if form.pri_nationality.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.pri_nationality.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_city">City *</label>
+                                    {{ form.pri_city }}
+                                    {% if form.pri_city.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.pri_city.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_subcity">SubCity *</label>
+                                    {{ form.pri_subcity }}
+                                    {% if form.pri_subcity.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.pri_subcity.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_woreda">Woreda *</label>
+                                    {{ form.pri_woreda }}
+                                    {% if form.pri_woreda.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.pri_woreda.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_kebele">Kebele *</label>
+                                    {{ form.pri_kebele }}
+                                    {% if form.pri_kebele.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.pri_kebele.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_telno">Telephone *</label>
+                                    {{ form.pri_telno }}
+                                    {% if form.pri_telno.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.pri_telno.errors.0 }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-12 form-group mg-t-8">
+                                <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                                <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Admit Form Area End Here -->
+
+                <!-- Temp Prisoner List Area Start Here -->
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>Temporary Prisoner List</h3>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table display data-table text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Gender</th>
+                                        <th>Age</th>
+                                        <th>Nationality</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="temp-prisoner-list">
+                                    {% for temp_prisoner in temp_prisoners %}
+                                    <tr id="temp-prisoner-{{ temp_prisoner.id }}">
+                                        <td>{{ temp_prisoner.id }}</td>
+                                        <td>{{ temp_prisoner.pri_fname }} {{ temp_prisoner.pri_mname }} {{ temp_prisoner.pri_lname }}</td>
+                                        <td>{{ temp_prisoner.pri_gender }}</td>
+                                        <td>{{ temp_prisoner.age }}</td>
+                                        <td>{{ temp_prisoner.pri_nationality }}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    <span class="flaticon-more-button-of-three-dots"></span>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item btn-edit" href="#" data-id="{{ temp_prisoner.id }}">Edit</a>
+                                                    <a class="dropdown-item btn-delete" href="#" data-id="{{ temp_prisoner.id }}">Delete</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Temp Prisoner List Area End Here -->
+
+                {% include 'includes/footer_copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    {% include 'includes/footer.html' %}
+
+    <!-- JavaScript for handling CRUD operations -->
+    <script>
+        $(document).ready(function () {
+            // Functionality for handling form submission via AJAX
+            $('#temp-prisoner-form').on('submit', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                var tempPrisonerId = $('#temp-prisoner-id').val();
+                var url = tempPrisonerId ? '{% url "temp_prisoner_update" 0 %}'.replace('/0/', '/' + tempPrisonerId + '/') : '{% url "temp_prisoner_create" %}';
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            toastr.success(response.message);
+                            if (!tempPrisonerId) {
+                                // Append new prisoner row to table
+                                $('#temp-prisoner-list').append(response.temp_prisoner_html);
+                            } else {
+                                // Replace existing prisoner row in table
+                                $('#temp-prisoner-' + tempPrisonerId).replaceWith(response.temp_prisoner_html);
+                            }
+                            form.trigger('reset');
+                            $('#temp-prisoner-id').val('');
+                        } else {
+                            if (response.errors) {
+                                $.each(response.errors, function (field, errors) {
+                                    toastr.error(errors.join(', '));
+                                    // Show validation errors for individual fields
+                                    form.find('#id_' + field).addClass('is-invalid').next('.invalid-feedback').html(errors.join(', '));
+                                });
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            });
+
+            // Functionality for handling delete operation via AJAX
+            $('#temp-prisoner-list').on('click', '.btn-delete', function () {
+                var tempPrisonerId = $(this).data('id');
+                if (confirm('Are you sure you want to delete this temporary prisoner?')) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url "temp_prisoner_delete" 0 %}'.replace('/0/', '/' + tempPrisonerId + '/'),
+                        data: {
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function (response) {
+                            if (response.status === 'success') {
+                                toastr.success(response.message);
+                                // Remove prisoner row from table
+                                $('#temp-prisoner-' + tempPrisonerId).remove();
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        },
+                        error: function (response) {
+                            toastr.error('An error occurred. Please try again.');
+                        }
+                    });
+                }
+            });
+
+            // Functionality for handling edit operation via AJAX
+            $('#temp-prisoner-list').on('click', '.btn-edit', function () {
+                var tempPrisonerId = $(this).data('id');
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url "temp_prisoner_update" 0 %}'.replace('/0/', '/' + tempPrisonerId + '/'),
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            // Populate form fields with data for editing
+                            $('#temp-prisoner-id').val(response.temp_prisoner.id);
+                            // Populate other fields as well
+                            $('#id_pri_fname').val(response.temp_prisoner.pri_fname);
+                            $('#id_pri_mname').val(response.temp_prisoner.pri_mname);
+                            $('#id_pri_lname').val(response.temp_prisoner.pri_lname);
+                            $('#id_pri_gender').val(response.temp_prisoner.pri_gender);
+                            $('#id_age').val(response.temp_prisoner.age);
+                            $('#id_pri_nationality').val(response.temp_prisoner.pri_nationality);
+                            $('#id_pri_city').val(response.temp_prisoner.pri_city);
+                            $('#id_pri_subcity').val(response.temp_prisoner.pri_subcity);
+                            $('#id_pri_woreda').val(response.temp_prisoner.pri_woreda);
+                            $('#id_pri_kebele').val(response.temp_prisoner.pri_kebele);
+                            $('#id_pri_telno').val(response.temp_prisoner.pri_telno);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function (response) {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

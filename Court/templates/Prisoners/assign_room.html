@@ -1,0 +1,279 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+{% load static %}
+{% include 'includes/head.html' %}
+
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <div id="wrapper" class="wrapper bg-ash">
+         <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcubs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Prisoner</h3>
+                    <ul>
+                        <li>
+                            <a href="{% url 'prisoner_room_list' %}">Assign Room List</a
+                        </li>
+                        <li>Prisoner Assign Room</li>
+                    </ul>
+                </div>
+                <!-- Breadcubs Area End Here -->
+                <!-- Student Details Area Start Here -->
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>Assign Room / Prisoner Details</h3>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item btn-delete" href="#" data-id="{{ prisoner.pri_id }}"><i class="fas fa-times text-orange-red"></i>Delete</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="single-info-details">
+                            <div class="item-img">
+                                {%if prisoner.picture %}
+                                <img src="{{prisoner.picture.url}}" alt="student">
+                                {% endif %}
+                            </div>
+                            {% include 'partials/delete_confirmation.html' %}
+                            <div class="item-content">
+                                <form action="{% url 'prisoner_room_assign' prisoner.pk %}" method="POST" id="assign-room-form">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="room_code" class="header-inline item-header mg-t-8" >Assign Room Code</label>
+                                        <select name="room_code" id="room_code" class="form-control">
+                                            <option value="">Select Room</option>
+                                            {% for room in occupancies %}
+                                                {% if room.room_type == prisoner.pri_gender %}
+                                                    <option value="{{ room.room_code }}">{{ room }} {{room.room_type}}</option>
+                                                {% else %}
+                                            {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">{% if prisoner.room_code is None %}Assign Room{% else %} Change Room {% endif %}</button>
+                                </form>
+                                <div class="header-inline item-header mg-t-8" style="margin-top: 10%;">
+                                    {% for crime in crime_details %}
+                                    <h3 class="text-dark-medium font-medium">Crime Type: {{ crime.crime_type }}</h3>
+                                    <div class="header-elements">
+                                        <ul>
+                                            <li><a href="#"><i class="far fa-edit"></i></a></li>
+                                            <li><a href="#"><i class="fas fa-print"></i></a></li>
+                                            <li><a href="#"><i class="fas fa-download"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <p>Crime Description: {{ crime.crime_description }}</p>
+                                {% endfor %} 
+                                <div class="info-table table-responsive">
+                                    <table class="table text-nowrap">
+                                        <tbody>
+                                            <tr>
+                                                <td>Status:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.status}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Name:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_fname}} {{prisoner.pri_mname}} {{prisoner.pri_lname}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gender:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_gender}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date Birth:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_dob}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nationality:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_nationality}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>City:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_city}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Subcity:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_subcity}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Woreda:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_woreda}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Face-color:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_facecolor}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Hair-color:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_haircolor}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Body Weight:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_bodyweight_kg}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Height:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_height_m}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date of Arrest:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_date_of_arrest}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date of Departure:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.pri_date_of_depart}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Roome:</td>
+                                                <td id="room-display" class="font-medium text-dark-medium">{{prisoner.room_code}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Sentence Date:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.sentence_date}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Release Date:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.release_date}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Eligible for parole:</td>
+                                                <td class="font-medium text-dark-medium">
+                                                    {% if prisoner.eligible_for_parole %}
+                                                        <i class="fas fa-check-circle" style="color: green;"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-times-circle" style="color: red;"></i>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>rehabilitation Program Enrolled:</td>
+                                                <td class="font-medium text-dark-medium">
+                                                    {% if prisoner.rehabilitation_program_enrolled %}
+                                                        <i class="fas fa-check-circle" style="color: green;"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-times-circle" style="color: red;"></i>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>Prison:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.prison}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Court:</td>
+                                                <td class="font-medium text-dark-medium">{{prisoner.court}}</td>
+                                            </tr>
+                                            {% if court %}
+                                            <tr>
+                                                <td>Judge Name:</td>
+                                                <td class="font-medium text-dark-medium">{{court.judge_name}}</td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Student Details Area End Here -->
+                <footer class="footer-wrap-layout1">
+                    <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
+                </footer>
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    <!-- jquery-->
+   {% include 'includes/footer.html' %}
+</body>
+<script>
+    $(document).ready(function() {
+        // Event listener for delete button click
+        $('.btn-delete').click(function (event) {
+            event.preventDefault(); // Prevent the default action of the link
+            var prisonerId = $(this).data('id'); // Get prisoner ID from data-id attribute
+            $('#deleteConfirmationModal').modal('show'); // Show delete confirmation modal
+            $('#confirmDeleteBtn').data('id', prisonerId); // Set data-id attribute for confirmation button
+        });
+
+        // Event listener for close modal buttons
+        $('.close, .close-modal').click(function() {
+            $('#deleteConfirmationModal').modal('hide'); // Hide delete confirmation modal
+        });
+
+        // Event listener for confirm delete button
+        $('#confirmDeleteBtn').click(function() {
+            var prisonerId = $(this).data('id'); // Get prisoner ID from data-id attribute
+            $.ajax({
+                url: '{% url "prisoner_delete" 0 %}'.replace('0', prisonerId),
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        toastr.success(response.message); // Display success message
+                        window.location.href = '{% url "prisoner_list" %}'; // Redirect to prisoner list page
+                    } else {
+                        toastr.error(response.message); // Display error message
+                    }
+                    $('#deleteConfirmationModal').modal('hide'); // Hide delete confirmation modal
+                },
+                error: function () {
+                    toastr.error('An error occurred. Please try again.'); // Display generic error message
+                    $('#deleteConfirmationModal').modal('hide'); // Hide delete confirmation modal
+                }
+            });
+        });
+
+        // Event listener for assign room form submission
+        $('#assign-room-form').submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        var form = $(this);
+        var url = form.attr('action');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: form.serialize(), // Serialize the form data
+            success: function(response) {
+                if (response.status === 'success') {
+                    toastr.success(response.message);
+                    // Update the room display without reloading the page
+                    $('#room-display').text($('#room_code').val());
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function(xhr) {
+                var response = JSON.parse(xhr.responseText);
+                toastr.error(response.message);
+            }
+            });
+        });
+    });
+    
+</script>
+
+
+</html>

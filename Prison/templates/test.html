@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+
+{% include 'includes/head.html' %}
+
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %} 
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/prison_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcumbs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Prison</h3>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>Temporary Prisoner Form</li>
+                    </ul>
+                </div>
+                <!-- Breadcumbs Area End Here -->
+                <!-- Admit Form Area Start Here -->
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>Add New Temporary Prisoner</h3>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                                    aria-expanded="false">...</a>
+
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#"><i
+                                            class="fas fa-times text-orange-red"></i>Close</a>
+                                    <a class="dropdown-item" href="#"><i
+                                            class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                    <a class="dropdown-item" href="#"><i
+                                            class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                </div>
+                            </div>
+                        </div>
+                        <form id="temp-prisoner-form" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_fname">First Name *</label>
+                                    {{ form.pri_fname }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_mname">Middle Name *</label>
+                                    {{ form.pri_mname }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_lname">Last Name *</label>
+                                    {{ form.pri_lname }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_gender">Gender *</label>
+                                    {{ form.pri_gender }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_age">Age *</label>
+                                    {{ form.age }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_nationality">Nationality</label>
+                                    {{ form.pri_nationality }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_city">City *</label>
+                                    {{ form.pri_city }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_subcity">SubCity *</label>
+                                    {{ form.pri_subcity }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_woreda">Woreda *</label>
+                                    {{ form.pri_woreda }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_kebele">Kebele *</label>
+                                    {{ form.pri_kebele }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="id_pri_telno">Telephone *</label>
+                                    {{ form.pri_telno }}
+                                </div>
+                            </div>
+                            <div class="col-12 form-group mg-t-8">
+                                <button type="submit"
+                                    class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                                <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Admit Form Area End Here -->
+                {% include 'includes/footer_copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    {% include 'includes/footer.html' %}
+
+</body>
+
+</html>

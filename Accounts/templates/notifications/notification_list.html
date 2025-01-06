@@ -1,0 +1,46 @@
+<li class="navbar-item dropdown header-notification">
+    <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+       aria-expanded="false" id="notification-link">
+        <i class="far fa-bell"></i>
+        <div class="item-title d-md-none text-16 mg-l-10">Notification</div>
+        <span id="notification-count">{{ num_unread_notifications }}</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right" id="notification-dropdown">
+        <div class="item-header">
+            <h6 class="item-title">Notifications</h6>
+        </div>
+        <div class="item-content" id="notification-content">
+            {% if notifications %}
+            <div class="notification-list">
+                <ul>
+                    {% for notification in notifications %}
+                    <li>
+                        <div class="media">
+                            <div class="item-icon bg-skyblue">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="media-body space-sm">
+                                <div class="post-title">{{ notification.message }}</div>
+                                <span><a href="{% url 'notifications_mark_as_read' notification.id %}">Mark as read</a></span>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% else %}
+            <div class="notification-list">
+                <div class="media">
+                    <div class="item-icon bg-orange">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="media-body space-sm">
+                        <div class="post-title">No New Notification.</div>
+                        <span>...</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</li>

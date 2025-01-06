@@ -1,0 +1,65 @@
+{% load static %}
+<div class="sidebar-main sidebar-menu-one sidebar-expand-md sidebar-color">
+    <div class="mobile-sidebar-header d-md-none">
+         <div class="header-logo">
+             <a href="index.html"><img src="{% static 'img/logo.png' %}" alt="logo"></a>
+         </div>
+    </div>
+     <div class="sidebar-menu-content">
+         <ul class="nav nav-sidebar-menu sidebar-toggle-view">
+             <li class="nav-item sidebar-nav-item">
+                 <a href="#" class="nav-link"><i class="flaticon-dashboard"></i><span>Dashboard</span></a>
+                 <ul class="nav sub-group-menu">
+                     <li class="nav-item">
+                         <a href="index.html" class="nav-link"><i class="fas fa-angle-right"></i>Admin</a>
+                     </li>
+                     <li class="nav-item">
+                         <a href="index3.html" class="nav-link"><i
+                                 class="fas fa-angle-right"></i>Students</a>
+                     </li>
+                     <li class="nav-item">
+                         <a href="index4.html" class="nav-link"><i class="fas fa-angle-right"></i>Parents</a>
+                     </li>
+                     <li class="nav-item">
+                         <a href="index5.html" class="nav-link"><i
+                                 class="fas fa-angle-right"></i>Teachers</a>
+                     </li>
+                 </ul>
+             </li>
+             <li class="nav-item sidebar-nav-item">
+                 <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Prisoners</span></a>
+                 <ul class="nav sub-group-menu">
+                     <li class="nav-item">
+                         <a href="{% url 'prisoner_create' %}" class="nav-link"><i class="fas fa-angle-right"></i>Add New
+                             Prisoners</a>
+                     </li>
+                     <li class="nav-item">
+                        <a href="" class="nav-link"><i class="fas fa-angle-right"></i>Add Existing
+                            Prisoners</a>
+                    </li>
+                     <li class="nav-item">
+                         <a href="{% url 'prisoner_list' %}" class="nav-link"><i
+                                 class="fas fa-angle-right"></i>Prisoner Record</a>
+                     </li>
+                     
+                 </ul>
+             </li>
+             <li class="nav-item">
+                <a href="" class="nav-link"><i class="flaticon-books"></i><span>Arrested Request</span></a>
+            </li>
+             <li class="nav-item sidebar-nav-item">
+                 <a href="#" class="nav-link"><i
+                         class="flaticon-multiple-users-silhouette"></i><span>Location</span></a>
+                 <ul class="nav sub-group-menu">
+                     <li class="nav-item">
+                         <a href="" class="nav-link"><i class="fas fa-angle-right"></i>City</a>
+                     </li>
+                     <li class="nav-item">
+                         <a href="" class="nav-link"><i
+                                 class="fas fa-angle-right"></i>SubCity</a>
+                     </li>
+                 </ul>
+             </li>
+            </ul>
+     </div>
+ </div>

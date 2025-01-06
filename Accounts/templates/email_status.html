@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zxx">
+    {% load static %}
+    {% include 'includes/visitor/head.html' %}
+<body id="top">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TAGCODE"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="page_loader"></div>
+<style>
+    .alert {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    .alert i {
+        margin-right: 10px;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .form-box {
+        margin-bottom: 15px;
+    }
+
+    .form-box input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    /* Button styles */
+    .btn-md.btn-theme {
+        position: relative;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #292a29;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Spinner styles */
+    .spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #fff;
+        border-top: 2px solid #007bff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Loading button styles */
+    .loading-button {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+</style>
+
+<!-- Email Status start -->
+<div class="login-41">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 bg-img">
+                <div class="bg-img-inner">
+                    <div class="info">
+                        <h1>Welcome to Logdy</h1>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 form-info">
+                <div class="form-section">
+                    <div class="form-section-innner">
+                        <div class="logo clearfix">
+                            <a href="{% url 'loginv' %}">
+                                <img src="{% static 'assets/img/logos/logo.png' %}" alt="logo">
+                            </a>
+                        </div>
+                        <h3>Email Activation</h3>
+                        <!-- Display status message -->
+                        {% if message %}
+                            <div class="alert alert-{{ message_type }}">{{ message }}</div>
+                        {% endif %}
+                        <!-- Resend activation email form -->
+                        <div class="resend-form">
+                            <h4 style="color:white">Resend Activation Email</h4>
+                            <form id="resend-form" method="post">
+                                {% csrf_token %}
+                                <div class="form-group form-box">
+                                    <input type="email" name="email" placeholder="Enter your email address" required>
+                                </div>
+                                <button type="submit" class="btn-md btn-theme" id="resend-button">
+                                    <span class="button-text">Resend Email</span>
+                                    <div class="spinner" style="display: none;"></div>
+                                </button>
+                            </form>
+                        </div>
+                    </div>      
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Email Status end -->
+
+<!-- External JS libraries -->
+{% include 'includes/visitor/footer.html' %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script>
+    $(document).ready(function() {
+        $('#resend-form').on('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            var $button = $('#resend-button');
+            var $spinner = $button.find('.spinner');
+            var $buttonText = $button.find('.button-text');
+
+            // Show loading spinner and disable button
+            $button.addClass('loading-button');
+            $spinner.show();
+            $buttonText.hide();
+
+            $.ajax({
+                type: 'POST',
+                url: '{% url "resend_activation_email" %}',
+                data: $(this).serialize(),
+                success: function(response) {
+                    toastr.success(response.message);
+
+                    // Redirect to login page after a delay
+                    setTimeout(function() {
+                        window.location.href = '{% url "loginv" %}';
+                    }, 1000); // 3-second delay before redirecting
+                },
+                error: function(xhr) {
+                    let errorMessage = 'An error occurred. Please try again.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    toastr.error(errorMessage);
+                },
+                complete: function() {
+                    // Hide loading spinner and enable button
+                    $button.removeClass('loading-button');
+                    $spinner.hide();
+                    $buttonText.show();
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

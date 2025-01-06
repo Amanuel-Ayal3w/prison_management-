@@ -1,0 +1,201 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+{% load static %}
+{% include 'includes/head.html' %}
+
+<body>
+    <div id="wrapper" class="wrapper bg-ash">
+        {% include 'includes/header.html' %}
+        <div class="dashboard-page-one">
+            {% include 'includes/court_sidebar.html' %}
+            <div class="dashboard-content-one">
+                <div class="breadcrumbs-area">
+                    <h3>Arrested Prisoner</h3>
+                    <ul>
+                        {% if user.is_court_account %}
+                        <li>
+                            <a href="{% url 'temp_prisoner_requested_list' %}">Arrested Prisoner List</a>
+                        </li>
+                        {% elif user.is_prison_account %}
+                        <li>
+                            <a href="{% url 'temp_prisoner_list' %}">Arrested Prisoner List</a>
+                        </li>
+                        {% endif %}
+                        <li>Details</li>
+                    </ul>
+                </div>
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>Arrested Prisoner Details</h3>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item btn-delete" href="#" data-id="{{ temp_prisoner.pri_id }}"><i class="fas fa-times text-orange-red"></i>Delete</a>
+                                    <a class="dropdown-item" href="{% url 'temp_prisoner_update' temp_prisoner.pk %}"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                    <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single-info-details">
+                            {% include 'partials/delete_confirmation.html' %}
+                            <div class="item-content">
+                                <div class="header-inline item-header">
+                                    <div class="info-table table-responsive">
+                                        <table class="table text-nowrap">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Status:</td>
+                                                    <td class="font-medium text-dark-medium">
+                                                        {% if temp_prisoner.status == 'pending' %}
+                                                            <i class="fas fa-clock" title="Pending"></i> Pending
+                                                        {% elif temp_prisoner.status == 'accepted' %}
+                                                            <i class="fas fa-check-circle" title="Accepted" style="color: green;"></i> Accepted
+                                                        {% elif temp_prisoner.status == 'rejected' %}
+                                                            <i class="fas fa-times-circle" title="Rejected" style="color: red;"></i> Rejected
+                                                        {% elif temp_prisoner.status == 'expired' %}
+                                                            <i class="fas fa-hourglass-end" title="Expired" style="color: orange;"></i> Expired
+                                                        {% else %}
+                                                            <i class="fas fa-question-circle" title="Unknown" style="color: gray;"></i> Unknown
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Name:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.pri_fname }} {{ temp_prisoner.pri_mname }} {{ temp_prisoner.pri_lname }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Gender:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.pri_gender }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Age:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.age }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nationality:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.pri_nationality }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>City:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.pri_city }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Subcity:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.pri_subcity }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kebele:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.pri_kebele }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Woreda:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.pri_woreda }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tel No:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.pri_telno }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Date of Arrest:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.pri_date_of_arrest }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Requested Time:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.created_at }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Requested By:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.created_by }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Prison:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.prison }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Court:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.court }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Request Detail:</td>
+                                                    <td class="font-medium text-dark-medium">{{ temp_prisoner.description }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        {% if temp_prisoner.status == 'pending' and user.is_court_account %}
+                                            <div id="status-buttons" style="margin-top: 20px;">
+                                                <form method="POST" action="{% url 'temp_prisoner_detail' temp_prisoner.pk %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" name="decision" value="accept" class="btn-fill-lg btn-gradient-green btn-hover-bluedark" style="background-color: green; color: white;">Accept</button>
+                                                    <button type="submit" name="decision" value="reject" class="btn-fill-lg btn-gradient-red btn-hover-bluedark" style="background-color: red; color: white;">Reject</button>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="footer-wrap-layout1">
+                    <div class="copyright">© Copyrights <a href="#">akkhor</a> 2019. All rights reserved. Designed by <a href="#">PsdBosS</a></div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    {% include 'includes/footer.html' %}
+    <!-- Toastr Notifications -->
+    <script>
+        function submitDecision(decision) {
+            $('#decision').val(decision);
+            $.ajax({
+                url: "{% url 'temp_prisoner_detail' temp_prisoner.pk %}",
+                type: "POST",
+                data: $('#decision-form').serialize(),
+                success: function(response) {
+                    toastr.success(response.message);
+                },
+                error: function(xhr) {
+                    toastr.error('An error occurred while processing your request.');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            {% if messages %}
+                {% for message in messages %}
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    };
+                    {% if message.tags == 'success' %}
+                        toastr.success('{{ message }}');
+                    {% elif message.tags == 'error' %}
+                        toastr.error('{{ message }}');
+                    {% elif message.tags == 'info' %}
+                        toastr.info('{{ message }}');
+                    {% elif message.tags == 'warning' %}
+                        toastr.warning('{{ message }}');
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        });
+    </script>
+</body>
+</html>

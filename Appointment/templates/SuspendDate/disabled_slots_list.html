@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+{% load static %}
+{% include 'includes/head.html' %}
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcrumbs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Suspended Date List</h3>
+                    <ul>
+                        <li>
+                            <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li>Suspended Date List</li>
+                    </ul>
+                </div>
+                <!-- Breadcrumbs Area End Here -->
+                
+                <!-- Visitor List Area Start Here -->
+                <div class="col-12-xxxl col-12">
+                    <div class="card height-auto">
+                        <div class="card-body">
+                            <div class="heading-layout1">
+                                <div class="item-title">
+                                    <h3>Suspended Date List</h3>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table display data-table text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody id="appointment-list">
+                                        {% for slot in disabled_slots %}
+                                        <tr class="visitor-row" data-url="">
+                                            <td>{{ slot.id }}</td>
+                                            <td>{{ slot.date }}</td>
+                                            <td>{{ slot.description }}</td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr id="no-results">
+                                            <td colspan="7" class="text-center">No Suspend found</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Visitor List Area End Here -->
+
+                {% include 'includes/footer_copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    {% include 'includes/footer.html' %}
+</body>
+</html>

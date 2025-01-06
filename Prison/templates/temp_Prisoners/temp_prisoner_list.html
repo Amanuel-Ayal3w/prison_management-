@@ -1,0 +1,147 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+{% load static %}
+{% include 'includes/head.html' %}
+
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+
+            <div class="dashboard-content-one">
+                <!-- Breadcubs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Prisoners</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li>All Prisoners</li>
+                    </ul>
+                </div>
+                <!-- Breadcubs Area End Here -->
+
+                <!-- Student Table Area Start Here -->
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>All Prisoners Data</h3>
+                            </div>
+                        </div>
+
+                        <form class="mg-b-20">
+                            <div class="row gutters-8">
+                                <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
+                                    <input type="text" placeholder="Search by Roll ..." class="form-control">
+                                </div>
+                                <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
+                                    <input type="text" placeholder="Search by Name ..." class="form-control">
+                                </div>
+                                <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
+                                    <input type="text" placeholder="Search by Roome ..." class="form-control">
+                                </div>
+                                <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
+                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="table-responsive">
+                            <table class="table display data-table text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Gender</th>
+                                        <th>Age</th>
+                                        <th>Nationality</th>
+                                        <th>Court</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for temp_prisoner in temp_prisoners %}
+                                    <tr class="clickable-row" data-href="{% url 'temp_prisoner_detail' temp_prisoner.pk %}">
+                                        <td><label class="form-check-label">{{ temp_prisoner.pri_id }}</label></td>
+                                        <td>{{ temp_prisoner.pri_fname }} {{ temp_prisoner.pri_mname }} {{ temp_prisoner.pri_lname }}</td>
+                                        <td>{{ temp_prisoner.pri_gender }}</td>
+                                        <td>{{ temp_prisoner.age }}</td>
+                                        <td>{{ temp_prisoner.pri_nationality }}</td>
+                                        <td>{{ temp_prisoner.court }}</td>
+                                        <td>
+                                            {% if temp_prisoner.status == 'pending' %}
+                                                <i class="fas fa-clock" title="Pending"></i> Pending
+                                            {% elif temp_prisoner.status == 'accepted' %}
+                                                <i class="fas fa-check-circle" title="Accepted" style="color: green;"></i> Accepted
+                                            {% elif temp_prisoner.status == 'rejected' %}
+                                                <i class="fas fa-times-circle" title="Rejected" style="color: red;"></i> Rejected
+                                            {% elif temp_prisoner.status == 'expired' %}
+                                                <i class="fas fa-hourglass-end" title="Expired" style="color: orange;"></i> Expired
+                                            {% else %}
+                                                <i class="fas fa-question-circle" title="Unknown" style="color: gray;"></i> Unknown
+                                            {% endif %}
+                                        </td>
+                                        
+                                        <td class="action-column">
+                                            <div class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    <span class="flaticon-more-button-of-three-dots"></span>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item btn-edit" href="#" data-id="{{ temp_prisoner.id }}">Edit</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Student Table Area End Here -->
+
+                {% include 'includes/footer_copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+
+    {% include 'includes/footer.html' %}
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('.clickable-row');
+            rows.forEach(row => {
+                row.addEventListener('click', function(event) {
+                    if (!event.target.closest('.action-column')) {
+                        window.location = this.dataset.href;
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Custom CSS for table row hover effect -->
+    <style>
+        .table.data-table tbody tr:hover {
+            background-color: #e1f5fe; /* Light blue color */
+        }
+    </style>
+</body>
+
+</html>

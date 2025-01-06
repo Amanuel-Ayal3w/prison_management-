@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Confirmation</title>
+</head>
+<body>
+    <h1>Appointment Confirmation</h1>
+    <p>Dear {{ user.username }},</p>
+    <p>Your appointment has been successfully scheduled. Here are the details:</p>
+    <ul>
+        <li><strong>Prison:</strong> {{ prison.name }}</li>
+        <li><strong>Prisoner:</strong> {{ prisoner.pri_fname }} {{ prisoner.pri_mname }} {{ prisoner.pri_lname }}</li>
+        <li><strong>Appointment Date:</strong> {{ appointment_date }}</li>
+        <li><strong>Time Slot:</strong> {{ time_slot }}</li>
+        <li><strong>Confirmation Number:</strong> {{ confirmation_number }}</li>
+    </ul>
+    <p>Thank you for using our service.</p>
+</body>
+</html>

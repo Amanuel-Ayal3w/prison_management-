@@ -1,0 +1,307 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Prison Management | Home </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
+    <!-- Normalize CSS -->
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    <!-- Flaticon CSS -->
+    <link rel="stylesheet" href="{% static 'fonts/flaticon.css' %}">
+    <!-- Full Calender CSS -->
+    <link rel="stylesheet" href="{% static 'css/fullcalendar.min.css' %}">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+    <!-- Select 2 CSS -->
+    <link rel="stylesheet" href="{% static 'css/select2.min.css' %}">
+    <!-- Date Picker CSS -->
+    <link rel="stylesheet" href="{% static 'css/datepicker.min.css' %}">
+    <!-- Custom CSS -->
+    <!-- Modernize js -->
+    <script src="{% static 'js/modernizr-3.6.0.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <style>
+        /* Center the container vertically */
+        .container-centered {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Custom CSS for the container */
+        .picture-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            cursor: pointer;
+            border: 2px dashed #ddd;
+            transition: border 0.3s;
+        }
+
+        .picture-container:hover {
+            border: 2px dashed #333;
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .plus-icon {
+            position: absolute;
+            font-size: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-section {
+            display: flex;
+            align-items: flex-start;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .form-section .form-picture {
+            flex: 1;
+            text-align: center;
+        }
+
+        .form-section .form-details {
+            flex: 2;
+            margin-left: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-group .form-control {
+            width: 48%;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card .card-body {
+            padding: 40px;
+        }
+
+        .item-title h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .btn-fill-lg {
+            display: inline-block;
+            border: none;
+            background-color: transparent;
+            border-radius: 4px;
+            font-weight: 500;
+            color: #ffffff;
+            letter-spacing: 1px;
+            padding: 12px 45px;
+            cursor: pointer;
+            -webkit-transition: all 0.3s ease-out;
+            -moz-transition: all 0.3s ease-out;
+            -ms-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+        }
+
+        .btn-fill-lg:focus {
+            outline: none;
+            box-shadow: none;
+            border: none;
+        }
+
+        .btn-gradient-yellow {
+            background-color: #ffae01;
+        }
+
+        .btn-hover-bluedark:hover {
+            background: #042954;
+        }
+
+        .bg-blue-dark {
+            background-color: #042954;
+        }
+
+        .btn-hover-yellow:hover {
+            background: #ff9d01;
+        }
+
+        /* Hide the original file input */
+        .form-control-file {
+            display: none;
+        }
+
+        {% if request.user.is_visitor_account%}
+            .back_img {
+                background-color:#ddd;
+                background-repeat: no-repeat;
+                background-position: top;
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 100%;
+                width: 100%;
+            }
+        {% else %}
+            .back_img {
+                    background-image: url('{% static 'img/figure/login-bg.jpg' %}');
+                    background-repeat: no-repeat;
+                    background-position: top;
+                    position: fixed;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    height: 100%;
+                    width: 100%;
+                }
+        {% endif %}
+    </style>
+</head>
+
+<body class="back_img">
+    <div class="container-centered">
+        <div class="card height-auto">
+            <div class="card-body">
+                <div class="heading-layout1">
+                    <div class="item-title">
+                        <h3>Add Profile</h3>
+                    </div>
+                </div>
+                <form id="addProfileForm" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-section">
+                        <div class="form-picture">
+                            <div class="picture-container" onclick="document.getElementById('id_picture').click();">
+                                <img id="profilePicPreview" src="{% static 'img/figure/user.jpg' %}" class="profile-pic" alt="Profile Picture">
+                                <div class="plus-icon">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                            </div>
+                            <div class="item-title">
+                                <h5>Profile Picture</h5>
+                                <input type="file" id="id_picture" name="picture" class="form-control-file" accept="image/*" onchange="previewProfilePic(this);">
+                            </div>
+                        </div>
+                        <div class="form-details">
+                            <div class="form-group">
+                                <input type="text" id="id_first_name" name="first_name" class="form-control" placeholder="First Name" required>
+                                <input type="text" id="id_last_name" name="last_name" class="form-control" placeholder="Last Name" required>
+                            </div>
+                            <div class="form-group">
+                                {% if not request.user.is_visitor_account %}
+                                    <input type="email" id="id_email" name="email" class="form-control" placeholder="Email" required>
+                                {% else %}
+                                    <input type="email" id="id_email" name="email" class="form-control" placeholder="Email" value=" {{ request.user.email }}" readonly>
+                                {% endif %}                            
+                                <select id="id_gender" name="gender" class="form-control">
+                                    <option value="">Select Gender</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="date" id="id_date_of_birth" name="date_of_birth" class="form-control" placeholder="Date of Birth">
+                                <input type="text" id="id_phone" name="phone" class="form-control" placeholder="Phone">
+                            </div>
+                            <div class="form-group">
+                                <textarea id="id_address" name="address" class="form-control" placeholder="Address" rows="3"></textarea>
+                            </div>
+                            <div class="col-12 form-group mg-t-8">
+                                <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                                <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/toastr.min.js' %}"></script>
+    <script>
+        function previewProfilePic(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#profilePicPreview').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).ready(function () {
+            // Format the date to YYYY-MM-DD
+            $('#id_date_of_birth').on('blur', function () {
+                var date = $(this).val();
+                if (date) {
+                    var parts = date.split('/');
+                    var formattedDate = parts[2] + '-' + ('0' + parts[1]).slice(-2) + '-' + ('0' + parts[0]).slice(-2);
+                    $(this).val(formattedDate);
+                }
+            });
+
+            // Check for a success message from the session and display it using Toastr
+            {% if success_message %}
+            toastr.success('{{ success_message }}');
+            {% endif %}
+        });
+
+    </script>
+</body>
+
+</html>

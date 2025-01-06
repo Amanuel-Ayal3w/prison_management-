@@ -1,0 +1,335 @@
+{% load static %}
+<div class="sidebar-main sidebar-menu-one sidebar-expand-md sidebar-color">
+    <div class="mobile-sidebar-header d-md-none">
+         <div class="header-logo">
+             <a href="{% url 'index' %}"><img src="{% static 'img/logo.png' %}" alt="logo"></a>
+         </div>
+    </div>
+     <div class="sidebar-menu-content">
+         <ul class="nav nav-sidebar-menu sidebar-toggle-view">
+            {% if user.is_superuser %}
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-dashboard"></i><span>Dashboard</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link"><i class="fas fa-angle-right"></i>Admin</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Police</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_list' %}" class="nav-link"><i
+                                class="fas fa-angle-right"></i>Inspectors</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_list' %}" class="nav-link"><i
+                                class="fas fa-angle-right"></i>Officers</a>
+                    </li>
+                </ul>
+            </li>
+             <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Prisoners</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_list' %}" class="nav-link"><i
+                                class="fas fa-angle-right"></i>All Prisoners</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_create' %}" class="nav-link"><i class="fas fa-angle-right"></i>Add New
+                            Prisoners</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-books"></i><span>Prison</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_list' %}" class="nav-link"><i
+                                class="fas fa-angle-right"></i>All Prison</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fas fa-user-lock"></i><span>Arrested Prisoners</span></a>
+                <ul class="nav sub-group-menu">
+                    
+                    <li class="nav-item">
+                       <a href="{% url 'temp_prisoner_requested_list' %}" class="nav-link"><i
+                               class="fas fa-angle-right"></i>Arrested Prisoner Request</a>
+                   </li>
+                    
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-settings"></i><span>Account</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'create_account' %}" class="nav-link"><i
+                                class="fas fa-angle-right"></i>Create Account</a>
+                    </li>
+                </ul>
+            </li>
+            {% elif user.is_court_account %}
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-dashboard"></i><span>Dashboard</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link"><i class="fas fa-angle-right"></i>Court</a>
+                    </li>
+                    
+                </ul>
+            </li>
+             <li class="nav-item sidebar-nav-item">
+                 <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Prisoners</span></a>
+                 <ul class="nav sub-group-menu">
+                     <li class="nav-item">
+                         <a href="{% url 'prisoner_create' %}" class="nav-link"><i class="fas fa-angle-right"></i>Add New
+                             Prisoners</a>
+                     </li>
+                     <li class="nav-item">
+                         <a href="{% url 'prisoner_list' %}" class="nav-link"><i
+                                 class="fas fa-angle-right"></i>Prisoner Record</a>
+                     </li>
+                 </ul>
+             </li>
+             <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fas fa-user-lock"></i><span>Suspect </span></a>
+                <ul class="nav sub-group-menu">
+                    
+                    <li class="nav-item">
+                       <a href="{% url 'temp_prisoner_requested_list' %}" class="nav-link"><i
+                               class="fas fa-angle-right"></i>Arrested Prisoner Request</a>
+                   </li>
+                    
+                </ul>
+            </li>
+            {% elif user_role == 'Commissioner' %}
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-dashboard"></i><span>Dashboard</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link"><i class="fas fa-angle-right"></i>Commissioner</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Police</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_list' %}" class="nav-link"><i
+                                class="fas fa-angle-right"></i>Inspectors</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_list' %}" class="nav-link"><i
+                                class="fas fa-angle-right"></i>Officers</a>
+                    </li>
+                </ul>
+            </li>
+             <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Prisoners</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_list' %}" class="nav-link"><i
+                                class="fas fa-angle-right"></i>All Prisoners</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-books"></i><span>Prison</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_list' %}" class="nav-link"><i
+                                class="fas fa-angle-right"></i>All Prison</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-account"></i><span>Account</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'create_account' %}" class="nav-link"><i
+                                class="fas fa-angle-right"></i>Manage Account</a>
+                    </li>
+                </ul>
+            </li>
+            {% elif user_role == 'Inspector' %}
+            <li class="nav-item sidebar-nav-item">
+               <a href="#" class="nav-link"><i class="flaticon-dashboard"></i><span>Dashboard</span></a>
+               <ul class="nav sub-group-menu">
+                   <li class="nav-item">
+                       <a href="{% url 'dashboard' %}" class="nav-link"><i class="fas fa-angle-right"></i>Inspector</a>
+                   </li>
+                   
+               </ul>
+            </li>
+             <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Prisoners</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_list' %}" class="nav-link">
+                            <i class="fas fa-angle-right"></i>All Prisoners</a>
+                    </li>
+                </ul>
+            </li>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-bed"></i><span>Room</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'room_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Manage Rooms</a>
+                    </li>
+                
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_room_list' %}" class="nav-link">
+                            <i class="fas fa-angle-right"></i>Assign Room to Prisoners</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fa fa-bus"></i><span>Transfer</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'transfer_add_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Transfer Prisoner</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'transfer_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Transfer list</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'transfer_requested_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Requested Transfer list</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fa fa-chart-line"></i><span>Activity</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_activity_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>List Activity</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fa fa-hand-paper"></i><span>Discipline</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'discipline_add_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Discipline Issue</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fa fa-clock"></i><span>Parole</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'parole_add_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Assign Parole</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'parole_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Parole List</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-user"></i><span>Visitor</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'visitor_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Visitor List</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fa fa-calendar-check"></i><span>Appointment</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'find_appointment' %}" class="nav-link"><i class="fas fa-angle-right"></i>Appointments </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-settings"></i><span>Account</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'create_account' %}" class="nav-link"><i
+                                class="fas fa-angle-right"></i>Manage Account</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            {% elif user_role == 'Officer' %}
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-dashboard"></i><span>Dashboard</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'dashboard' %}" class="nav-link"><i class="fas fa-angle-right"></i>Officer</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-classmates"></i><span>Prisoners</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Prisoners List</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fa fa-chart-line"></i><span>Activity</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'prisoner_activity_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Record Activity</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fa fa-hand-paper"></i><span>Discipline</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'discipline_add_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Manage Discipline</a>
+                    </li>
+                    
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="flaticon-user"></i><span>Visitor</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'create_visitor' %}" class="nav-link"><i class="fas fa-angle-right"></i>Record Visitor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'visitor_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Visitor List</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fa fa-calendar-check"></i><span>Appointment</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'find_appointment' %}" class="nav-link"><i class="fas fa-angle-right"></i>Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'disable_slot' %}" class="nav-link"><i class="fas fa-angle-right"></i>Suspend Appointment</a>
+                    </li>
+                    <li class="nav-item">
+                    <a href="{% url 'disabled_slots_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>List Suspends</a>
+                </li>
+                </ul>
+            </li>
+            {% elif user.is_police_station %}
+            <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"><i class="fa fa-hourglass-half"></i><span>Suspect</span></a>
+                <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                        <a href="{% url 'temp_prisoner_create' %}" class="nav-link"><i class="fas fa-angle-right"></i>Request Suspect to Court</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'temp_prisoner_list' %}" class="nav-link"><i class="fas fa-angle-right"></i>Requested Suspects List</a>
+                    </li>
+                </ul>
+            </li>
+            {% endif %}
+        </ul>
+     </div>
+ </div>

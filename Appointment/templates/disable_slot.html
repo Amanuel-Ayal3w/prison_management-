@@ -1,0 +1,16 @@
+<!-- disable_slot.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disable Slot</title>
+</head>
+<body>
+    <h1>Disable Slot</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Disable</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+{% load static %}
+{% include 'includes/head.html' %}
+
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+
+            <div class="dashboard-content-one">
+                <!-- Breadcubs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Discipline</h3>
+                    <ul>
+                        <li><a href="index.html">Discipline</a></li>
+                        <li>Discipline list</li>
+                    </ul>
+                </div>
+                <!-- Breadcubs Area End Here -->
+
+                <!-- Student Table Area Start Here -->
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>Disciplines for {{ prisoner.pri_fname }} {{ prisoner.pri_lname }}</h3>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="{% url 'discipline_create' prisoner_id=prisoner.pk %}"><i class="fas fa-plus text-dark-pastel-green"></i>Add Activity</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form class="mg-b-20">
+                            <div class="row gutters-8">
+                                <div class="col-3-xxxl col-xl-3 col-lg-3 col-12 form-group">
+                                    <input type="text" placeholder="Search by Roll ..." class="form-control">
+                                </div>
+                                <div class="col-4-xxxl col-xl-4 col-lg-3 col-12 form-group">
+                                    <input type="text" placeholder="Search by Name ..." class="form-control">
+                                </div>
+                                <div class="col-4-xxxl col-xl-3 col-lg-3 col-12 form-group">
+                                    <input type="text" placeholder="Search by Roome ..." class="form-control">
+                                </div>
+                                <div class="col-1-xxxl col-xl-2 col-lg-3 col-12 form-group">
+                                    <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="table-responsive">
+                            <table class="table display data-table text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input checkAll">
+                                                <label class="form-check-label">ID</label>
+                                            </div>
+                                        </th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                        <th>Date</th>
+                                        <th>Assigned Staff</th>
+                                        <th>Status</th>
+                                        {% if user_role == 'Officer'%}
+                                        <th>Action</th>
+                                        {% endif %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for discipline in disciplines %}
+                                    <tr class="clickable-row" data-href="{% url 'discipline_detail' discipline.pk %}">
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input">
+                                                <label class="form-check-label">{{ discipline.id }}</label>
+                                            </div>
+                                        </td>
+                                        
+                                        <td>{{ discipline.get_discipline_type_display }}</td>
+                                        <td>{{ discipline.description }}</td>
+                                        <td>{{ discipline.date }}</td>
+                                        <td>{{ discipline.assigned_staff }}</td>
+                                        <td>{{ discipline.get_status_display }}</td>
+                                        <td>
+                                            {% if user_role == 'Officer'%}
+                                            <div class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    <span class="flaticon-more-button-of-three-dots"></span>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="{% url 'discipline_delete' discipline.pk %}"><i
+                                                            class="fas fa-times text-orange-red"></i>Delete</a>
+                                                    <a class="dropdown-item" href="{% url 'discipline_update' discipline.pk %}"><i
+                                                            class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                                    <a class="dropdown-item" href="{% url 'discipline_detail' discipline.pk %}"><i
+                                                            class="fas fa-redo-alt text-orange-peel"></i>View</a>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="8" class="text-center">No Discipline found : <a href="{% url 'discipline_create' prisoner_id=prisoner.pk %}">Create Acitivity </a></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Student Table Area End Here -->
+
+                {% include 'includes/footer_copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+
+    {% include 'includes/footer.html' %}
+
+    <!-- JavaScript -->
+    <script>
+        // Add JavaScript for making rows clickable
+        document.addEventListener("DOMContentLoaded", function () {
+            var rows = document.querySelectorAll(".clickable-row");
+            rows.forEach(function (row) {
+                row.addEventListener("click", function () {
+                    var href = row.dataset.href;
+                    if (href) {
+                        window.location.href = href;
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Custom CSS for table row hover effect -->
+    <style>
+        .table.data-table tbody tr:hover {
+            background-color: #e1f5fe; /* Light blue color */
+        }
+        
+    </style>
+</body>
+
+</html>

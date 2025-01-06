@@ -1,0 +1,330 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+{% load static %}
+{% include 'includes/head.html' %}
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <script>
+        $(document).ready(function() {
+        {% if success %}
+                toastr.success("Appointment booked successfully!", "Success", {
+                    positionClass: "toast-top-right",
+                    timeOut: 5000
+                });
+        {% endif %}
+    });
+    </script>
+   <style>
+    .container-centered {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    /* Custom CSS for the container */
+    .picture-container {
+        width: 150px; /* Adjust width as needed */
+        height: 200px; /* Adjust height as needed */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+        cursor: pointer;
+        border: 2px dashed #ddd;
+        transition: border 0.3s;
+    }
+
+    .picture-container:hover {
+        border: 2px dashed #333;
+    }
+
+    .profile-pic {
+        width: auto;
+        height: 100%;
+        max-width: 100%;
+        object-fit: cover;
+    }
+
+    .plus-icon {
+        position: absolute;
+        font-size: 30px;
+        color: rgba(255, 255, 255, 0.8);
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 4px; /* Adjust radius for rectangle shape */
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Hide file input visually but keep accessible */
+    .file-input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }
+</style>
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcubs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Prisoner</h3>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>Prisoner Add Form</li>
+                    </ul>
+                </div>
+                <!-- prisoner_form.html -->
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>{% if form.instance.pk %}Edit Prisoner{% else %}Add New Prisoner{% endif %}</h3>
+                            </div>
+                        </div>
+                        <form method="post" class="new-added-form" id='prisonerForm' enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>First Name *</label>
+                                    {{ form.pri_fname }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Middle Name</label>
+                                    {{ form.pri_mname }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Last Name *</label>
+                                    {{ form.pri_lname }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Gender *</label>
+                                    {{ form.pri_gender }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Fayda ID *</label>
+                                    {{ form.national_id }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Date Of Birth *</label>
+                                    {{ form.pri_dob }}
+                                    <i class="far fa-calendar-alt"></i>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Nationality *</label>
+                                    {{ form.pri_nationality }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>City *</label>
+                                    {{ form.pri_city }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Subcity *</label>
+                                    {{ form.pri_subcity }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Woreda *</label>
+                                    {{ form.pri_woreda }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Face Color *</label>
+                                    {{ form.pri_facecolor }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Hair Color *</label>
+                                    {{ form.pri_haircolor }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Phone Number *</label>
+                                    {{ form.pri_telno }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Body Weight (kg) *</label>
+                                    {{ form.pri_bodyweight_kg }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Height (m) *</label>
+                                    {{ form.pri_height_m }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Date of Arrest *</label>
+                                    {{ form.pri_date_of_arrest }}
+                                    <i class="far fa-calendar-alt"></i>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Sentence Date *</label>
+                                    {{ form.sentence_date }}
+                                    <i class="far fa-calendar-alt"></i>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Release Date *</label>
+                                    {{ form.release_date }}
+                                    <i class="far fa-calendar-alt"></i>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Prison *</label>
+                                    {{ form.prison }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label class="form-check-label" for="flexSwitchCheckParole">Eligible for Parole *</label>
+                                    <div class="form-check form-switch">
+                                        {{ form.eligible_for_parole }}
+                                        <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label class="form-check-label" for="flexSwitchCheckRehabilitation">Rehabilitation Program Enrolled *</label>
+                                    <div class="form-check form-switch">
+                                        {{ form.rehabilitation_program_enrolled }}
+                                        <label class="form-check-label" for="flexSwitchCheckRehabilitation"></label>
+                                    </div>
+                                </div>
+                                {{ formset.management_form }}
+                                {% for form in formset %}
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Crime Type *</label>
+                                    {{ form.crime_type }}
+                                </div>
+                                <div class="item-title">
+                                    <h5>Picture *  </h5>
+                                </div>
+                                    <div class="picture-container"
+                                         onclick="document.getElementById('id_picture').click();">
+                                        <img id="profilePicPreview" src="{% static 'img/figure/user.jpg' %}"
+                                             class="profile-pic" alt="Profile Picture">
+                                        <div class="plus-icon">
+                                            <i class="fas fa-plus"></i>
+                                        </div>
+                                    </div>
+                                    <input type="file" id="id_picture" name="picture" class="file-input"
+                                           accept="image/*" onchange="previewProfilePic(this);">
+                                   
+
+                                <div class="col-xl-6 col-lg-6 col-12 form-group">
+                                    <label>Crime Discription *</label>
+                                    {{ form.crime_description }}   
+                                </div>
+                                {% endfor %}
+                                <div class="col-12 form-group mg-t-8">
+                                    <button type="submit" id='saveButton' class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                                    <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                        <script>
+                            function previewProfilePic(input) {
+                                if (input.files && input.files[0]) {
+                                    var reader = new FileReader();
+                                    reader.onload = function (e) {
+                                        $('#profilePicPreview').attr('src', e.target.result);
+                                    };
+                                    reader.readAsDataURL(input.files[0]);
+                                }
+                            }
+                        
+                            $(document).ready(function () {
+                                $('#saveButton').click(function (event) {
+                                    event.preventDefault(); // Prevent the form from submitting normally
+                        
+                                    // Create a FormData object to handle file upload
+                                    var formData = new FormData($('#prisonerForm')[0]);
+                        
+                                    // Get the CSRF token
+                                    var csrftoken = $('[name=csrfmiddlewaretoken]').val();
+                        
+                                    // Function to format dates to YYYY-MM-DD
+                                    function formatDate(dateString) {
+                                        var parts = dateString.split('/');
+                                        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+                                    }
+                        
+                                    // Iterate over form data and reformat date fields
+                                    $('#prisonerForm').serializeArray().forEach(function (field) {
+                                        if (field.name.includes('date') || field.name.includes('dob')) {
+                                            formData.set(field.name, formatDate(field.value));
+                                        }
+                                    });
+                        
+                                    // Submit the form data via AJAX to the server for validation and saving
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '{% url "prisoner_create" %}', // Use the named URL for prisoner_create
+                                        data: formData,
+                                        processData: false, // Prevent jQuery from automatically transforming the data into a query string
+                                        contentType: false, // Prevent jQuery from setting the content type header
+                                        beforeSend: function (xhr, settings) {
+                                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                                        },
+                                        success: function (response) {
+                                            console.log("AJAX Success Response: ", response);
+                                            toastr.success(response.message);
+                                            // Optionally, you can reset the form after successful submission
+                                            $('#prisonerForm')[0].reset();
+                                            $('#profilePicPreview').attr('src', '{% static "img/figure/user.jpg" %}');
+                                        },
+                                        error: function (xhr, textStatus, errorThrown) {
+                                            console.log("AJAX Error: ", textStatus, errorThrown);
+                                            console.log("XHR Response: ", xhr.responseText);
+                        
+                                            var responseJSON = xhr.responseJSON || {};
+                                            var errors = responseJSON.errors || {};
+                        
+                                            if (errors.form_errors) {
+                                                for (var field in errors.form_errors) {
+                                                    if (errors.form_errors.hasOwnProperty(field)) {
+                                                        var errorMessage = errors.form_errors[field];
+                                                        toastr.error(field + ": " + errorMessage.join(", "));
+                                                    }
+                                                }
+                                            }
+                        
+                                            if (errors.formset_errors) {
+                                                errors.formset_errors.forEach(function (formsetError, index) {
+                                                    for (var field in formsetError) {
+                                                        if (formsetError.hasOwnProperty(field)) {
+                                                            var errorMessage = formsetError[field];
+                                                            toastr.error("Formset " + (index + 1) + " - " + field + ": " + errorMessage.join(", "));
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                });
+                            });
+                        </script>                        
+                    </div>
+                </div>
+       <!-- Admit Form Area End Here -->
+         {% include 'includes/footer_copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    {% include 'includes/footer.html' %}
+</body>
+</html>

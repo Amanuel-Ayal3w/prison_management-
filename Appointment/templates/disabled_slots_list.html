@@ -1,0 +1,16 @@
+<!-- disabled_slots_list.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disabled Slots</title>
+</head>
+<body>
+    <h1>Disabled Slots</h1>
+    <ul>
+        {% for slot in disabled_slots %}
+            <li>{{ slot.prison.name }} - {{ slot.date }} - {{ slot.time_slot }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

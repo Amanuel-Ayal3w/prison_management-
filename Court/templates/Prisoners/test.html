@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transfer List</title>
+
+</head>
+<body>
+    <h1>Transfer List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Prisoner</th>
+                <th>From Prison</th>
+                <th>To Prison</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Requested By</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transfer in transfers %}
+            <tr>
+                <td>{{ transfer.prisoner.pri_fname }} {{ transfer.prisoner.pri_lname }}</td>
+                <td>{{ transfer.prisoner.prison }}</td>
+                <td>{{ transfer.to_prison }}</td>
+                <td>{{ transfer.description }}</td>
+                <td>{{ transfer.status }}</td>
+                <td>{{ transfer.requested_by.username }}</td>
+                <td>
+                    <a href="{% url 'transfer_detail' transfer.id %}">View</a>
+                    <a href="{% url 'transfer_update' transfer.id %}">Edit</a>
+                    <a href="{% url 'transfer_delete' transfer.id %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'transfer_create' prisoner_id=1 %}">Create New Transfer</a> <!-- Adjust prisoner_id as needed -->
+</body>
+</html>

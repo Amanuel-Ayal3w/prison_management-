@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Visitor</title>
+</head>
+<body>
+    <h2>Create Visitor</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div>
+            <label for="prisoner_id">Find Prisoner by ID:</label>
+            <input type="text" id="prisoner_id" name="prisoner_id">
+            <button type="button" onclick="findPrisoner()">Find</button>
+        </div>
+        <div id="prisoner_info" style="display: none;">
+            <h3>Prisoner Information</h3>
+            <p id="prisoner_name"></p>
+            <img id="prisoner_picture" src="" alt="Prisoner Picture" style="width: 100px; height: 100px;">
+        </div>
+        <button type="submit">Save</button>
+    </form>
+    {% if appointment %}
+    <p>Assigning to appointment: {{ appointment.confirmation_number }}</p>
+    {% endif %}
+</body>
+<script>
+function findPrisoner() {
+    var prisonerId = document.getElementById('prisoner_id').value;
+    fetch(`/get_prisoner_info?prisoner_id=${prisonerId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                document.getElementById('prisoner_info').style.display = 'block';
+                document.getElementById('prisoner_name').innerText = `Name: ${data.name}`;
+                document.getElementById('prisoner_picture').src = data.picture;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+</script>
+</html>

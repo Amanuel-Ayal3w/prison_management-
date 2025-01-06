@@ -1,0 +1,18 @@
+<tr id="temp-prisoner-{{ temp_prisoner.id }}">
+    <td>{{ temp_prisoner.id }}</td>
+    <td>{{ temp_prisoner.pri_fname }} {{ temp_prisoner.pri_mname }} {{ temp_prisoner.pri_lname }}</td>
+    <td>{{ temp_prisoner.pri_gender }}</td>
+    <td>{{ temp_prisoner.age }}</td>
+    <td>{{ temp_prisoner.pri_nationality }}</td>
+    <td>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <span class="flaticon-more-button-of-three-dots"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item btn-edit" href="#" data-id="{{ temp_prisoner.id }}">Edit</a>
+                <a class="dropdown-item btn-delete" href="#" data-id="{{ temp_prisoner.id }}">Delete</a>
+            </div>
+        </div>
+    </td>
+</tr>

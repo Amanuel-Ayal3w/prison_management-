@@ -1,0 +1,214 @@
+<!doctype html>
+<html class="no-js" lang="">
+{% load static %}
+{% include 'includes/head.html' %}
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <script>
+        $(document).ready(function() {
+            {% if success %}
+                toastr.success("Appointment booked successfully!", "Success", {
+                    positionClass: "toast-top-right",
+                    timeOut: 5000
+                });
+            {% endif %}
+        });
+    </script>
+    <style>
+        /* Card Header Styling */
+        .card-header {
+            background-color: #ff4d4d; /* Red background */
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            color: #fff; /* White text */
+        }
+
+        .card-header h3 {
+            margin: 0;
+        }
+
+        /* Card Body Styling */
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Find Prisoner Section */
+        .find-prisoner-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .prisoner-info-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .prisoner-info-container img {
+            width: 120px;
+            height: 80px; /* Rectangular shape */
+            border-radius: 8px;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .prisoner-info-container .prisoner-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .find-prisoner-label {
+            margin-bottom: 5px;
+            display: block;
+        }
+    </style>
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcrumbs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Visitor</h3>
+                    <ul>
+                        <li>
+                            <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li>Visitor Add Form</li>
+                    </ul>
+                </div>
+                <!-- Visitor Form Area -->
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>{% if form.instance.pk %}Edit Visitor{% else %}Record Visitor{% endif %}</h3>
+                            </div>
+                        </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <!-- Your existing form fields here -->
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>FAN-ID *</label>
+                                    {{ form.Fan_ID }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Name *</label>
+                                    {{ form.name }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Age *</label>
+                                    {{ form.age }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Gender *</label>
+                                    {{ form.gender }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Relation to Prisoner *</label>
+                                    {{ form.relationship_to_prisoner }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Phone *</label>
+                                    {{ form.contact_number }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Date *</label>
+                                    {{ form.visit_date }}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Time Slot *</label>
+                                    {{ form.time_slot }}
+                                </div>
+                                {% if appointment %}
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Appointment *</label>
+                                    {{ appointment.confirmation_number }}
+                                </div>
+                                {% endif %}
+                                {% if not appointment %}
+                                <div class="col-xl-6 col-lg-6 col-12 form-group">
+                                    <label class="find-prisoner-label" for="prisoner_id_input">Find Prisoner by ID:</label>
+                                    <div class="find-prisoner-container">
+                                        <input type="text" id="prisoner_id_input" name="prisoner_id_input" class="form-control" placeholder="Enter Prisoner ID">
+                                        <button class="btn-fill-lg bg-blue-dark btn-hover-yellow" type="button" onclick="findPrisoner()">Find</button>
+                                    </div>
+                                    <input type="hidden" id="prisoner_id" name="prisoner_id">
+                                </div>
+                                <div class="col-xl-6 col-lg-9 col-12 form-group" id="prisoner_info" style="display: none;">
+                                    <label>Selected Prisoner *</label>
+                                    <div class="prisoner-info-container">
+                                        <img id="prisoner_picture" src="" alt="Image">
+                                        <div class="prisoner-details">
+                                            <p id="prisoner_name"><strong></strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <div class="col-12 form-group mg-t-8">
+                                    <button type="submit" id='saveButton' class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                                    <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                        <script>
+                            $(document).ready(function() {
+                                $('#id_visit_date').change(function() {
+                                    var date = $(this).val();
+                                    var prison_id = {{ appointment.prison.id|default:user.prison.id }};
+                                    if (date && prison_id) {
+                                        $.ajax({
+                                            url: "{% url 'get_available_time_slots' %}",
+                                            data: {
+                                                'date': date,
+                                                'prison_id': prison_id
+                                            },
+                                            success: function(data) {
+                                                var timeSlotSelect = $('#id_time_slot');
+                                                timeSlotSelect.empty();
+                                                timeSlotSelect.append('<option value="">Select a time slot</option>');
+                                                $.each(data.available_slots, function(index, value) {
+                                                    timeSlotSelect.append('<option value="' + value + '">' + value + '</option>');
+                                                });
+                                            },
+                                            error: function() {
+                                                alert("Error fetching available time slots. Please try again.");
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+
+                            function findPrisoner() {
+                                var prisonerId = document.getElementById('prisoner_id_input').value;
+                                fetch(`/get_prisoner_info?prisoner_id=${prisonerId}`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.error) {
+                                            alert(data.error);
+                                        } else {
+                                            document.getElementById('prisoner_info').style.display = 'block';
+                                            document.getElementById('prisoner_name').innerText = data.name;
+                                            document.getElementById('prisoner_picture').src = data.picture;
+                                            document.getElementById('prisoner_id').value = prisonerId;
+                                        }
+                                    })
+                                    .catch(error => console.error('Error:', error));
+                            }
+                        </script>
+                    </div>
+                </div>
+                <!-- Visitor Form Area End Here -->
+                {% include 'includes/footer_copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here

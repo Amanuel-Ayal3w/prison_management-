@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+{% load static %}
+{% include 'includes/head.html' %}
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcrumbs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Visitor List</h3>
+                    <ul>
+                        <li>
+                            <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li>Visitor List</li>
+                    </ul>
+                </div>
+                <!-- Breadcrumbs Area End Here -->
+                
+                <!-- Visitor List Area Start Here -->
+                <div class="col-12-xxxl col-12">
+                    <div class="card height-auto">
+                        <div class="card-body">
+                            <div class="heading-layout1">
+                                <div class="item-title">
+                                    <h3>Find Visitor</h3>
+                                </div>
+                            </div>
+                            <form class="mg-b-20" id="filter-form">
+                                <div class="row gutters-8">
+                                    <div class="col-lg-3 col-12 form-group">
+                                        <input type="text" id="filter-name" placeholder="Filter by Name" class="form-control">
+                                    </div>
+                                    <div class="col-lg-3 col-12 form-group">
+                                        <input type="date" id="filter-date" placeholder="Filter by Date" class="form-control">
+                                    </div>
+                                    <div class="col-lg-3 col-12 form-group">
+                                        <input type="text" id="filter-time-slot" placeholder="Filter by Time Slot" class="form-control">
+                                    </div>
+                                    <div class="col-lg-3 col-12 form-group">
+                                        <input type="text" id="filter-confirmation-number" placeholder="Filter by Confirmation Number" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2 col-12 form-group">
+                                        <button type="button" id="search-button" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="heading-layout1">
+                                <div class="item-title">
+                                    <h3>Visitor List</h3>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table display data-table text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Relation</th>
+                                            <th>Date</th>
+                                            <th>Time Slot</th>
+                                            <th>Confirmation Number</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="appointment-list">
+                                        {% for visitor in visitors %}
+                                        <tr class="visitor-row" data-url="{% url 'visitor_detail' visitor.pk %}">
+                                            <td>{{ visitor.id }}</td>
+                                            <td>{{ visitor.name }}</td>
+                                            <td>{{ visitor.relationship_to_prisoner }}</td>
+                                            <td>{{ visitor.visit_date }}</td>
+                                            <td>{{ visitor.time_slot }}</td>
+                                            <td>
+                                                {% if visitor.appointment %}
+                                                    {{ visitor.appointment.confirmation_number }}
+                                                {% else %}
+                                                    N/A
+                                                {% endif %}
+                                            </td>
+                                            <td class="action-column">
+                                                <div class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                        <span class="flaticon-more-button-of-three-dots"></span>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item btn-edit" href="{% url 'update_visitor' visitor.pk %}">Edit</a>
+                                                        <a class="dropdown-item btn-edit" href="{% url 'delete_visitor' visitor.pk %}">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr id="no-results">
+                                            <td colspan="7" class="text-center">No Visitor found</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Hover effect on visitor rows, excluding the Action column
+        $('.visitor-row').hover(function() {
+            $(this).children('td').not('.action-column').css('background-color', '#d3eaff');
+        }, function() {
+            $(this).children('td').not('.action-column').css('background-color', '');
+        });
+
+        // Click event to redirect to detail page, excluding clicks on the Action column
+        $('.visitor-row').click(function(e) {
+            // Check if the clicked element is within the Action column
+            if (!$(e.target).closest('.action-column').length) {
+                window.location.href = $(this).data('url');
+            }
+        });
+
+        // Filter functionality
+        $('#search-button').click(function() {
+            let filterName = $('#filter-name').val().toLowerCase();
+            let filterDate = $('#filter-date').val();
+            let filterTimeSlot = $('#filter-time-slot').val().toLowerCase();
+            let filterConfirmationNumber = $('#filter-confirmation-number').val().toLowerCase();
+
+            $('#appointment-list tr.visitor-row').filter(function() {
+                $(this).toggle(
+                    ($(this).children('td').eq(1).text().toLowerCase().indexOf(filterName) > -1 || filterName === '') &&
+                    ($(this).children('td').eq(3).text().indexOf(filterDate) > -1 || filterDate === '') &&
+                    ($(this).children('td').eq(4).text().toLowerCase().indexOf(filterTimeSlot) > -1 || filterTimeSlot === '') &&
+                    ($(this).children('td').eq(5).text().toLowerCase().indexOf(filterConfirmationNumber) > -1 || filterConfirmationNumber === '')
+                );
+            });
+        });
+    });
+</script>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Visitor List Area End Here -->
+
+                {% include 'includes/footer_copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    {% include 'includes/footer.html' %}
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+{% load static %}
+{% include 'includes/visitor/head.html' %}
+<style>
+    .form-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .toggle-password {
+        flex-grow: 1;
+    }
+
+    .eye-icon {
+        order: 1;
+        margin-top: 5px;
+        margin-right: 25px;  /* Adjust as needed */
+    }
+
+    .flaticon-password {
+        order: 2;
+    }
+    
+    .spinner {
+        display: none;
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        border-top: 4px solid #fff;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .btn-md {
+        position: relative;
+    }
+    
+    .btn-md .spinner {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .btn-md .button-text {
+        visibility: visible;
+    }
+
+    .btn-md.loading .button-text {
+        visibility: hidden;
+    }
+</style>
+<body id="top">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TAGCODE"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="page_loader"></div>
+
+<!-- Login 7 start -->
+<div class="login-41">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 bg-img" >
+                <div class="bg-img-inner">
+                    <div class="info">
+                        <h1>Welcome to Prison.</h1>
+                        <p>This is Ethiopian Digital Prison Information and Appointment Service System!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 form-info">
+                <div class="form-section">
+                    <div class="form-section-innner">
+                        <div class="logo clearfix">
+                            <a href="{% url 'loginv' %}">
+                                <img src="{% static 'front/images/logo.png'%}" alt="logo">
+                            </a>
+                        </div>
+                        <h3>Sign Into Your Account</h3>
+                        <div class="btn-section clearfix">
+                            <a href="{% url 'loginv' %}" class="link-btn active btn-1 active-bg">Login</a>
+                            <a href="{% url 'registerv' %}" class="link-btn btn-2 default-bg">Register</a>
+                        </div>
+                        <div class="login-inner-form">
+                            <form id="login-form" action="{% url 'loginv' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group form-box">
+                                    <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Username">
+                                    <i class="flaticon-user"></i>
+                                </div>
+                                <div class="form-group form-box password-toggle">
+                                    <input type="password" name="password" class="form-control toggle-password" placeholder="Password" aria-label="Password">
+                                    <i class="eye-icon fa fa-eye" aria-hidden="true"></i>
+                                    <i class="flaticon-password"></i>
+                                    <div class="spinner"></div>
+                                </div>
+                                <div class="checkbox form-group form-box">
+                                    <div class="form-check checkbox-theme">
+                                        <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+                                        <label class="form-check-label" for="rememberMe">
+                                            Remember me
+                                        </label>
+                                    </div>
+                                    <a href="#">Forgot Password</a>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn-md btn-theme w-100">
+                                        <span class="button-text">Login</span>
+                                        <div class="spinner"></div>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <ul class="social-list">
+                            <li><a href="#" class="facebook-color"><i class="fa fa-facebook facebook-i"></i><span>Facebook</span></a></li>
+                            <li><a href="#" class="twitter-color"><i class="fa fa-twitter twitter-i"></i><span>Twitter</span></a></li>
+                            <li><a href="#" class="google-color"><i class="fa fa-google google-i"></i><span>Google</span></a></li>
+                        </ul>
+                        <p class="none-2">Don't have an account? <a href="{% url 'registerv' %}" class="thembo"> Register here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Login 7 end -->
+
+<!-- External JS libraries -->
+{% include 'includes/visitor/footer.html' %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Check for success message in query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'True') {
+        toastr.success('Registration successful! Verify Your Email.');
+    }
+
+    // Password Toggle Script
+    document.querySelectorAll('.eye-icon').forEach(function(icon) {
+        icon.addEventListener('click', function() {
+            const input = icon.previousElementSibling;
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            icon.classList.toggle('fa-eye-slash');
+            icon.classList.toggle('fa-eye');
+        });
+    });
+
+    // Login Form Submission
+    const form = document.getElementById('login-form');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const spinner = submitButton.querySelector('.spinner');
+    const buttonText = submitButton.querySelector('.button-text');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        spinner.style.display = 'inline-block';
+        submitButton.classList.add('loading');
+        buttonText.style.display = 'none';
+        submitButton.disabled = true;
+
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            spinner.style.display = 'none';
+            submitButton.classList.remove('loading');
+            buttonText.style.display = 'inline-block';
+            submitButton.disabled = false;
+
+            if (data.success) {
+                window.location.href = "{% url 'index' %}";
+            } else {
+                for (let [field, messages] of Object.entries(data.errors)) {
+                    toastr.error(messages.join(' '));
+                }
+            }
+        })
+        .catch(error => {
+            spinner.style.display = 'none';
+            submitButton.classList.remove('loading');
+            buttonText.style.display = 'inline-block';
+            submitButton.disabled = false;
+
+            if (error.message.includes('NetworkError')) {
+                toastr.error('Network error. Please check your internet connection and try again.');
+            } else if (error.message.includes('timeout')) {
+                toastr.error('Request timed out. Please try again.');
+            } else {
+                toastr.error('An unexpected error occurred. Please try again later.');
+            }
+            console.error('Error:', error);
+        });
+    });
+});
+
+</script>
+
+</body>
+</html>

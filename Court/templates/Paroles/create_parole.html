@@ -1,0 +1,74 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+{% load static %}
+{% include 'includes/head.html' %}
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcubs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Parole</h3>
+                    <ul>
+                        <li>
+                            <a href="{% url 'parole_list' %}">Parole list</a>
+                        </li>
+                        <li>Create parole </li>
+                    </ul>
+                </div>
+                <!-- prisoner_form.html -->
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>{% if form.instance.pk %}Update{% else %}Create{% endif %} Parole for {{ prisoner.pri_fname }} {{ prisoner.pri_mname }}</h3>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="{% url 'parole_list' %}"><i class="fas fa-plus text-dark-pastel-green"></i>Parole list</a>
+                                </div>
+                            </div>
+                        </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="activity_type">Month*</label>
+                                    {{form.month}}
+                                    {{form.errors.month}}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="description">Description*</label>
+                                    {{form.description}}
+                                    {{form.errors.description}}
+                                </div>
+                                <div class="col-12 form-group mg-t-8">
+                                    <button type="submit" id='saveButton' class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                                    <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                                </div>
+                            </div>
+                        </form>                      
+                    </div>
+                </div>
+       <!-- Admit Form Area End Here -->
+         {% include 'includes/footer_copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    {% include 'includes/footer.html' %}
+</body>
+</html>

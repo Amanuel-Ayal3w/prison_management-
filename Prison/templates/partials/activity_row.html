@@ -1,0 +1,23 @@
+<tr id="room-{{ activity.id }}" data-room-code="{{ room.room_code }}" data-block="{{ room.block }}" data-room-type="{{ room.get_room_type_display }}">
+    <td>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input">
+            <label class="form-check-label">{{ room.room_code }}</label>
+        </div>
+    </td>
+    <td>{{ room.block }}</td>
+    <td>{{ room.get_room_type_display }}</td>
+    <td>{{ room.no_of_beds }}</td>
+    <td>{{ room.remaining_bed }}</td>
+    <td>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <span class="flaticon-more-button-of-three-dots"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item btn-edit" data-id="{{ room.id }}"><i class="fas fa-cogs text-dark-pastel-green"></i> Edit</a>
+                <a class="dropdown-item btn-delete" data-id="{{ room.id }}"><i class="fas fa-times text-orange-red"></i> Delete</a>
+            </div>
+        </div>
+    </td>
+</tr>

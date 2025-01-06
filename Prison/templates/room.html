@@ -1,0 +1,311 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+{% load static %}
+{% include 'includes/head.html' %}
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcubs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Room Managment</h3>
+                    <ul>
+                        <li>
+                            <a href="{% url 'dashboard' %}">Home</a>
+                        </li>
+                        <li>Room</li>
+                    </ul>
+                </div>
+                <!-- Breadcubs Area End Here -->
+                <div class="row">
+                        <!-- Add Room Area Start Here -->
+        <div class="col-4-xxxl col-12">
+            <div class="card height-auto">
+                <div class="card-body">
+                    <div class="heading-layout1">
+                        <div class="item-title">
+                            <h3 id="form-title">Add New Room</h3>
+                        </div>
+                    </div>
+                    <form id="roomForm" method="post" class="new-added-form">
+                        {% csrf_token %}
+                        <input type="hidden" id="room-id" name="room-id">
+                        <div class='row'>
+                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>Room Code</label>
+                            {{ form.room_code }}
+                        </div>
+                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>Block</label>
+                            {{ form.block }}
+                        </div>
+                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>Room Type</label>
+                            {{ form.room_type }}
+                        </div>
+                        <div class="col-12 form-group mg-t-8">
+                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Add Room Area End Here -->
+
+        <!-- All Room List Area Start Here -->
+        <div class="col-8-xxxl col-12">
+            <div class="card height-auto">
+                <div class="card-body">
+                    <div class="heading-layout1">
+                        <div class="item-title">
+                            <h3>Prison Room Lists</h3>
+                        </div>
+                    </div>
+                    <form class="mg-b-20">
+                        <div class="row gutters-8">
+                            <div class="col-lg-4 col-12 form-group">
+                                <input type="text" id="search-room" placeholder="Search by Room ..." class="form-control">
+                            </div>
+                            <div class="col-lg-3 col-12 form-group">
+                                <input type="text" id="search-block" placeholder="Search by Block ..." class="form-control">
+                            </div>
+                            <div class="col-lg-3 col-12 form-group">
+                                <input type="text" id="search-room-type" placeholder="Search by Room Type ..." class="form-control">
+                            </div>
+                            <div class="col-lg-2 col-12 form-group">
+                                <button type="button" id="search-button" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div class="table-responsive">
+                        <table class="table display data-table text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input checkAll">
+                                            <label class="form-check-label">Room Code</label>
+                                        </div>
+                                    </th>
+                                    <th>Block</th>
+                                    <th>Room Type</th>
+                                    <th>No of prisonners </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="room-list">
+                                {% for room in rooms %}
+                                <tr id="room-{{ room.id }}" data-room-code="{{ room.room_code }}" data-block="{{ room.block }}" data-room-type="{{ room.get_room_type_display }}">
+                                    <td>
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input">
+                                            <label class="form-check-label">{{ room.room_code }}</label>
+                                        </div>
+                                    </td>
+                                    <td>{{ room.block }}</td>
+                                    <td>{{ room.get_room_type_display }}</td>
+                                    <td>{{ room.prisoner_set.count }}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <span class="flaticon-more-button-of-three-dots"></span>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item btn-edit" data-id="{{ room.id }}"><i class="fas fa-cogs text-dark-pastel-green"></i> Edit</a>
+                                                <a class="dropdown-item btn-delete" data-id="{{ room.id }}"><i class="fas fa-times text-orange-red"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <tr id="no-results" style="display: none;">
+                                    <td colspan="6" class="text-center">No rooms found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <script>
+                        document.getElementById('search-button').addEventListener('click', function() {
+                            const roomFilter = document.getElementById('search-room').value.toLowerCase();
+                            const blockFilter = document.getElementById('search-block').value.toLowerCase();
+                            const roomTypeFilter = document.getElementById('search-room-type').value.toLowerCase();
+                            
+                            console.log('Filters:', { roomFilter, blockFilter, roomTypeFilter });
+                    
+                            const rows = document.querySelectorAll('#room-list tr');
+                            let matchesFound = false;
+                    
+                            rows.forEach(row => {
+                                if (row.id === 'no-results') return; // Skip the 'no results' row
+                    
+                                const roomCode = row.getAttribute('data-room-code').toLowerCase();
+                                const block = row.getAttribute('data-block').toLowerCase();
+                                const roomType = row.getAttribute('data-room-type').toLowerCase();
+                    
+                                console.log('Row Data:', { roomCode, block, roomType });
+                    
+                                const matchesRoomCode = roomCode.includes(roomFilter) || !roomFilter;
+                                const matchesBlock = block.includes(blockFilter) || !blockFilter;
+                                const matchesRoomType = roomType.includes(roomTypeFilter) || !roomTypeFilter;
+                    
+                                if (matchesRoomCode && matchesBlock && matchesRoomType) {
+                                    row.style.display = ''; // Show row
+                                    matchesFound = true;
+                                } else {
+                                    row.style.display = 'none'; // Hide row
+                                }
+                            });
+                    
+                            // Show or hide the 'no results' row
+                            document.getElementById('no-results').style.display = matchesFound ? 'none' : '';
+                            console.log('Matches Found:', matchesFound);
+                        });
+                    </script>
+                                                                                
+                </div>
+            </div>
+        </div>
+        <!-- All Room List Area End Here -->
+        <!--Error message Pop out-->
+        {% include 'partials/delete_confirmation_room.html' %}
+    <script>
+        $(document).ready(function () {
+            // Function to handle form submission
+            $('#roomForm').on('submit', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                var roomId = $('#room-id').val();
+                var url = roomId ? '{% url "room_update" 0 %}'.replace('0', roomId) : '{% url "add_room" %}';
+                
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            toastr.success(response.message);
+                            if (!roomId) {
+                                $('#room-list').append(response.room_html);
+                            } else {
+                                $('#room-' + roomId).replaceWith(response.room_html);
+                            }
+                            form.trigger('reset');
+                            $('#room-id').val('');
+                            $('#form-title').text('Add New Room');
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function (response) {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            });
+
+            // Function to handle room edit
+            $('#room-list').on('click', '.btn-edit', function () {
+                var roomId = $(this).data('id');
+                $.ajax({
+                    url: '{% url "room_update" 0 %}'.replace('0', roomId),
+                    type: 'GET',
+                    success: function (response) {
+                        $('#form-title').text('Edit Room');
+                        $('#room-id').val(response.room.id);
+                        $('#id_room_code').val(response.room.room_code);
+                        $('#id_block').val(response.room.block);
+                        $('#id_room_type').val(response.room.room_type);
+
+                        var formPosition = $('#form-title').offset().top;
+                        $('html, body').animate({ scrollTop: formPosition }, 'slow');
+                    },
+                    error: function (response) {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            });
+
+            // Function to handle room delete
+            $('#room-list').on('click', '.btn-delete', function () {
+                var roomId = $(this).data('id');
+                $('#deleteConfirmationModal').css('display', 'block');
+                $('#confirmDeleteBtn').attr('data-id', roomId); // Set room ID in the confirm button
+            });
+
+            // Close modal when close button or outside the modal is clicked
+            $('.close, .close-modal').click(function() {
+                $('#deleteConfirmationModal').css('display', 'none');
+            });
+
+            // Handle delete confirmation
+            $('#confirmDeleteBtn').click(function() {
+                var roomId = $(this).attr('data-id');
+                $.ajax({
+                    url: '{% url "room_delete" 0 %}'.replace('0', roomId),
+                    type: 'POST',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            toastr.success(response.message);
+                            $('#room-' + roomId).remove();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                        $('#deleteConfirmationModal').css('display', 'none'); // Close modal after deletion
+                    },
+                    error: function (response) {
+                        toastr.error('An error occurred. Please try again.');
+                        $('#deleteConfirmationModal').css('display', 'none'); // Close modal on error
+                    }
+                });
+            });
+
+            // Function to handle search
+            $('#search-button').on('click', function () {
+                var room = $('#search-room').val();
+                var block = $('#search-block').val();
+                var roomType = $('#search-room-type').val();
+                $.ajax({
+                    url: '{% url "room_list" %}',
+                    type: 'GET',
+                    data: {
+                        room: room,
+                        block: block,
+                        room_type: roomType
+                    },
+                    success: function (response) {
+                        $('#room-list').html(response.room_list_html);
+                    },
+                    error: function (response) {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+
+                </div>
+                {% include 'includes/footer_copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    {% include 'includes/footer.html' %}
+</body>
+</html>

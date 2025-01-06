@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zxx">
+    {% load static %}
+    {% include 'includes/visitor/head.html' %}
+<body id="top">
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TAGCODE"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="page_loader"></div>
+
+<!-- Login 7 start -->
+<div class="login-41">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Image Section -->
+            <div class="col-lg-6 col-md-12 bg-img">
+                <div class="bg-img-inner">
+                    <div class="info">
+                        <h1>Welcome to Logdy</h1>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Form Section -->
+            <div class="col-lg-6 col-md-12 form-info">
+                <div class="form-section">
+                    <div class="form-section-inner">
+                        <!-- Logo and Navigation -->
+                        <div class="logo clearfix">
+                            <a href="{% url 'loginv' %}">
+                                <img src="{% static 'front/images/logo.png' %}" alt="logo">
+                            </a>
+                        </div>
+                        <h3>Create An Account</h3>
+                        <div class="btn-section clearfix">
+                            <a href="{% url 'loginv' %}" class="link-btn btn-1 default-bg">Login</a>
+                            <a href="{% url 'registerv' %}" class="link-btn btn-2 active-bg">Register</a>
+                        </div>
+                        <!-- Registration Form -->
+                        <div class="login-inner-form">
+                            <form id="register-form" method="POST" action="{% url 'registerv' %}">
+                                {% csrf_token %}
+                                <div class="form-group form-box">
+                                    {{ form.username }}
+                                    <i class="flaticon-user"></i>
+                                </div>
+                                <div class="form-group form-box">
+                                    {{ form.email }}
+                                    <i class="flaticon-mail-2"></i>
+                                </div>
+                                <div class="form-group form-box">
+                                    {{ form.password1 }}
+                                    <i class="flaticon-password"></i>
+                                    <div id="password-error-1" class="error-message"></div>
+                                </div>
+                                <div class="form-group form-box">
+                                    {{ form.password2 }}
+                                    <i class="flaticon-password"></i>
+                                    <div id="password-error-2" class="error-message"></div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn-md btn-theme w-100">
+                                        <span class="button-text">Register</span>
+                                        <div class="spinner"></div>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Social Login Links -->
+                        <ul class="social-list">
+                            <li><a href="#" class="facebook-color"><i class="fa fa-facebook facebook-i"></i><span>Facebook</span></a></li>
+                            <li><a href="#" class="twitter-color"><i class="fa fa-twitter twitter-i"></i><span>Twitter</span></a></li>
+                            <li><a href="#" class="google-color"><i class="fa fa-google google-i"></i><span>Google</span></a></li>
+                        </ul>
+                        <p class="none-2">Already a member?<a href="{% url 'loginv' %}" class="thembo">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Login 7 end -->
+
+<!-- External JS libraries -->
+{% include 'includes/visitor/footer.html' %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+
+<!-- Custom Styles and Scripts -->
+<style>
+    .error-message {
+        color: #f1ebeb;
+        margin-top: 5px;
+        display: none;
+    }
+    input.valid {
+        border-color: #4CAF50 !important;
+        border-width: 2px !important;
+        box-shadow: 0 0 8px 2px rgba(76, 175, 80, 0.6) !important;
+    }
+    input.invalid {
+        border-color: #F44336 !important;
+        border-width: 2px !important;
+        box-shadow: 0 0 8px 2px rgba(244, 67, 54, 0.6) !important;
+    }
+    .spinner {
+        display: none;
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        border-top: 4px solid #fff;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .btn-md {
+        position: relative;
+        overflow: hidden;
+    }
+    .button-text {
+        display: inline-block;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const passwordInput1 = document.querySelector('input[name="password1"]');
+    const passwordInput2 = document.querySelector('input[name="password2"]');
+    const passwordError1 = document.getElementById('password-error-1');
+    const passwordError2 = document.getElementById('password-error-2');
+
+    function validatePassword() {
+        const password1 = passwordInput1.value;
+        const password2 = passwordInput2.value;
+
+        let isValid1 = true, isValid2 = true;
+        let errorMessage1 = '', errorMessage2 = '';
+
+        if (password1.length < 8) {
+            errorMessage1 = 'This password is too short. It must contain at least 8 characters.';
+            isValid1 = false;
+        } else if (/^[0-9]+$/.test(password1)) {
+            errorMessage1 = 'This password is entirely numeric.';
+            isValid1 = false;
+        } else if (['password', '12345678'].includes(password1)) {
+            errorMessage1 = 'This password is too common.';
+            isValid1 = false;
+        }
+
+        if (password1 !== password2) {
+            errorMessage2 = "Passwords don't match.";
+            isValid2 = false;
+        }
+
+        handleValidation(passwordInput1, passwordError1, isValid1, errorMessage1);
+        handleValidation(passwordInput2, passwordError2, isValid2, errorMessage2);
+    }
+
+    function handleValidation(inputElement, errorElement, isValid, errorMessage) {
+        if (isValid) {
+            inputElement.classList.add('valid');
+            inputElement.classList.remove('invalid');
+            errorElement.style.display = 'none';
+        } else {
+            inputElement.classList.add('invalid');
+            inputElement.classList.remove('valid');
+            errorElement.style.display = 'block';
+            errorElement.textContent = errorMessage;
+        }
+    }
+
+    passwordInput1.addEventListener('input', validatePassword);
+    passwordInput2.addEventListener('input', validatePassword);
+
+    const form = document.getElementById('register-form');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const spinner = submitButton.querySelector('.spinner');
+    const buttonText = submitButton.querySelector('.button-text');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        toggleSpinner(true);
+
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: 'POST',
+            headers: { 'X-CSRFToken': formData.get('csrfmiddlewaretoken') },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            toggleSpinner(false);
+
+            if (data.success) {
+                toastr.success('Registration successful! Verify Your Email.');
+                window.location.href = '/login/?success=True';
+            } else {
+                handleErrors(data.errors);
+            }
+        })
+        .catch(error => {
+            toggleSpinner(false);
+            toastr.error('An error occurred. Please try again.');
+            console.error('Error:', error);
+        });
+    });
+
+    function toggleSpinner(show) {
+        spinner.style.display = show ? 'inline-block' : 'none';
+        buttonText.style.display = show ? 'none' : 'inline-block';
+        submitButton.disabled = show;
+    }
+
+    function handleErrors(errors) {
+        for (let [field, messages] of Object.entries(errors)) {
+            toastr.error(messages.join(' '));
+        }
+    }
+});
+</script>
+</body>
+</html>

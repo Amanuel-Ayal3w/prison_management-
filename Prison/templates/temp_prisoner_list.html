@@ -1,0 +1,18 @@
+{% if object_list %}
+<div class="table-responsive">
+    <table class="table display data-table text-nowrap">
+        <thead>
+            <tr>
+               
+            </tr>
+        </thead>
+        <tbody id="temp-prisoner-list">
+            {% for temp_prisoner in object_list %}
+            {% include 'temp_prisoner_row.html' %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>No temp prisoners found.</p>
+{% endif %}

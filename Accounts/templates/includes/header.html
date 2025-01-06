@@ -1,0 +1,101 @@
+{% load static %}
+<!-- includes/header.html -->
+
+<!-- Include your standard header content here -->
+
+<!-- Message Display Block -->
+
+
+
+<div class="navbar navbar-expand-md header-menu-one bg-light">
+    <div class="nav-bar-header-one">
+        <div class="header-logo">
+            <a href="index.html">
+                <img src="{% static 'img/logo.png' %}" alt="logo">
+            </a>
+        </div>
+         <div class="toggle-button sidebar-toggle">
+            <button type="button" class="item-link">
+                <span class="btn-icon-wrap">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </button>
+        </div>
+    </div>
+    <div class="d-md-none mobile-nav-bar">
+       <button class="navbar-toggler pulse-animation" type="button" data-toggle="collapse" data-target="#mobile-navbar" aria-expanded="false">
+            <i class="far fa-arrow-alt-circle-down"></i>
+        </button>
+        <button type="button" class="navbar-toggler sidebar-toggle-mobile">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+    <div class="header-main-menu collapse navbar-collapse" id="mobile-navbar">
+        <ul class="navbar-nav">
+            <li class="navbar-item header-search-bar">
+                <div class="input-group stylish-input-group">
+                    <span class="input-group-addon">
+                        <button type="submit">
+                            <span class="flaticon-search" aria-hidden="true"></span>
+                        </button>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Find Something . . .">
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="navbar-item dropdown header-admin">
+                <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <div class="admin-title">
+                        <h5 class="item-title">{{user.first_name}} {{user.last_name}}</h5>
+                        <span>{% if user.court %}{{user.court}}{% else %}{% if user.prison %} {{user.prison}}, {{user.role}}{% endif %}{% endif %}</span>
+                    </div>
+                    <div class="admin-img">
+                        <img src="{% if user.profile.picture %}{{ user.profile.picture.url }}{% else %}{% static 'img/figure/user.jpg' %}{% endif %}" class="img-thumbnail rounded-circle profile-pic" style="width: 40px; height: 40px;" alt="Admin">
+                    </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="item-header">
+                        <h6 class="item-title">{{user.first_name}} {{user.last_name}}</h6>
+                    </div>
+                    <div class="item-content">
+                        <ul class="settings-list">
+                            <li><a href="{% url 'profile' %}"><i class="flaticon-user"></i>My Profile</a></li>
+<!--                            <li><a href="#"><i class="flaticon-list"></i>Task</a></li>
+                            <li><a href="#"><i class="flaticon-chat-comment-oval-speech-bubble-with-text-lines"></i>Message</a></li>
+-->                         <li><a href="#"><i class="flaticon-gear-loading"></i>Account Settings</a></li>
+                            <li><a href="{% url 'logout' %}"><i class="flaticon-turn-off"></i>Log Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            
+            {% load notification_tags %}
+            {% show_notifications %}
+        
+            <li class="navbar-item dropdown header-language">
+                <div id="google_translate_element" type='vertical'></div>
+                    <script type="text/javascript">
+                      function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({
+                          pageLanguage: 'en',
+                          includedLanguages: 'en,am,om,ti,so',
+                        }, 'google_translate_element');
+                      }
+                    </script>
+                <a class="navbar-nav-link dropdown-toggle" href="#" role="button" 
+                data-toggle="dropdown" aria-expanded="false"><i class="fas fa-globe-americas"></i>EN</a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#">English</a>
+                    <a class="dropdown-item" href="#">Amharic</a>
+                    <a class="dropdown-item" href="#">Oromiffa</a>
+                    <a class="dropdown-item" href="#">tigrigna</a>
+                    <a class="dropdown-item" href="#">Somslia</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

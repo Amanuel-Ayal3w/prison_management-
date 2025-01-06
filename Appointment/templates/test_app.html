@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Appointment</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Find Appointment</h1>
+
+    <form id="appointment-form">
+        <label for="confirmation_number">Enter Confirmation Number:</label>
+        <input type="text" id="confirmation_number" name="confirmation_number">
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="result">
+        <!-- Appointment details or list will be displayed here -->
+        <h2>Appointments</h2>
+        <ul id="appointment-list">
+            {% for appointment in appointments %}
+                <li>
+                    <strong>Prisoner:</strong> {{ appointment.prisoner.name if appointment.prisoner else "N/A" }}<br>
+                    <strong>Date:</strong> {{ appointment.appointment_date }}<br>
+                    <strong>Time Slot:</strong> {{ appointment.time_slot }}<br>
+                    <strong>Confirmation Number:</strong> {{ appointment.confirmation_number }}<br>
+                    <hr>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#appointment-form').on('submit', function(event){
+                event.preventDefault();
+                var confirmationNumber = $('#confirmation_number').val();
+
+                $.ajax({
+                    url: '{% url "find_appointment" %}',  // Update to the correct URL pattern name if different
+                    data: {
+                        'confirmation_number': confirmationNumber
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        var appointmentList = $('#appointment-list');
+                        appointmentList.empty(); // Clear previous results
+
+                        if (data.appointments.length > 0) {
+                            data.appointments.forEach(function(appointment) {
+                                appointmentList.append('<li><strong>Prisoner:</strong> ' + (appointment.prisoner || 'N/A') + '<br>' +
+                                    '<strong>Date:</strong> ' + appointment.appointment_date + '<br>' +
+                                    '<strong>Time Slot:</strong> ' + appointment.time_slot + '<br>' +
+                                    '<strong>Confirmation Number:</strong> ' + appointment.confirmation_number + '<br><hr></li>');
+                            });
+                        } else {
+                            appointmentList.append('<li>No appointments found.</li>');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

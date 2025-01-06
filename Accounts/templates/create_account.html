@@ -1,0 +1,250 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+{% load static %}
+{% include 'includes/head.html' %}
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    
+    <style>
+        .selected_row {
+            transition: background-color 0.3s ease;
+            padding: 10px;
+        }
+
+        .selected_row:hover {
+            background-color: #e0f7fa;
+            color:aqua;
+            cursor: pointer;
+        }
+  
+    </style>
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcubs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Account Setting</h3>
+                    <ul>
+                        <li><a href="">Home</a></li>
+                        <li>Setting</li>
+                    </ul>
+                </div>
+                <!-- Breadcubs Area End Here -->
+                <!-- Account Settings Area Start Here -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="heading-layout1">
+                                    <div class="item-title">
+                                        <h3>{% if user.role.role == 'Inspector' %}Add New Officer{% elif user.role.role == 'Commissioner' %}Add New Inspector{% elif user.role.role == 'admin' %}Add New Judge, Commissioner{% endif %}</h3>
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form method="post" class="new-added-form" id='prisonerForm' enctype="multipart/form-data">
+                                  {% csrf_token %}
+                                  <div class="row">
+                                      <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                          <label>Username *</label>
+                                          {{ form.username }}
+                                      </div>
+                                      <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                          <label>Email *</label>
+                                          {{ form.email }}
+                                      </div>
+                                      <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                          <label>Password *</label>
+                                          {{ form.password }}
+                                      </div>
+                                      <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                          <label>Role *</label>
+                                          {{ form.role }}
+                                      </div>
+                                      {% if user.role == "admin" %}
+                                      <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                          <label>Court *</label>
+                                          {{ form.court }}
+                                      </div>
+                                      {% elif user.role == "Commissioner" %}
+                                      <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                          <label>Prison *</label>
+                                          {{ form.prison }}
+                                      </div>
+                                      {% endif %}
+                                      <div class="col-12 form-group mg-t-8">
+                                          <button type="submit" id='saveButton' class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                                          <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                                      </div>
+                                  </div>
+                              </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% if user.role.role == "Inspector" %}
+                    <div class="col-4-xxxl col-xl-5 " style="height: 100%;">
+                        <div class="card account-settings-box height-auto">
+                            <div class="card-body">
+                                <div class="heading-layout1 mg-b-20">
+                                    <div class="item-title">
+                                        <h3>All Officers</h3>
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% for officer in officers %}
+                                    <div class="all-user-box" >
+                                        <div class="media media-none--xs" onclick="showOfficerDetails({{ officer.id }})" >
+                                            <div class="item-img">
+                                                <img src="{% if officer.profile.picture %}{{ officer.profile.picture.url }}{% else %}{% static 'img/figure/user.jpg' %}{% endif %}" class="media-img-auto" alt="user" style="height: 40%; width: 50px;">
+                                            </div>
+                                            <div class="media-body space-md">
+                                                <h5 class="item-title">{{ officer.first_name }}</h5>
+                                                <div class="item-subtitle">{{ officer.role }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                
+                                <div class="all-user-box">
+                                    <div class="media media-none--xs active">
+                                        <div class="item-img">
+                                            <img src="{% static 'img/figure/user.jpg' %}" class="media-img-auto" alt="user" style="height: 40%; width: 50px;">
+                                        </div>
+                                        <div class="media-body space-md">
+                                            <h5 class="item-title">No Officer</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8-xxxl col-xl-7 ">
+                        <div class="card account-settings-box" id="officerDetails">
+                            <div class="card-body">
+                                <div class="heading-layout1 mg-b-20">
+                                    <div class="item-title">
+                                        <h3>Officer Details</h3>
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="user-details-box">
+                                    <div class="item-img">
+                                        <img id="officerPicture" src="{% static 'img/figure/user.jpg' %}" alt="user">
+                                    </div>
+                                    <div class="item-content">
+                                        <div class="info-table table-responsive">
+                                            <table class="table text-nowrap">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>First Name:</td>
+                                                        <td id="officerFirstName" class="font-medium text-dark-medium"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Last Name:</td>
+                                                        <td id="officerLastName" class="font-medium text-dark-medium"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Gender:</td>
+                                                        <td id="officerGender" class="font-medium text-dark-medium"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Date Of Birth:</td>
+                                                        <td id="officerDOB" class="font-medium text-dark-medium"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Email:</td>
+                                                        <td id="officerEmail" class="font-medium text-dark-medium"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phone:</td>
+                                                        <td id="officerPhone" class="font-medium text-dark-medium"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Address:</td>
+                                                        <td id="officerAddress" class="font-medium text-dark-medium"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Date Joined:</td>
+                                                        <td id="officerdate_joined" class="font-medium text-dark-medium"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- Account Settings Area End Here -->
+            </div>
+        </div>
+    </div>
+    <!-- Footer Area Start Here -->
+    {% include 'includes/footer.html' %}
+    <!-- Footer Area End Here -->
+
+  
+  
+
+    <!-- Custom Script to handle AJAX for officer details -->
+    <script>
+        function showOfficerDetails(officerId) {
+            $.ajax({
+                url: "{% url 'get_officer_details' %}",
+                type: "GET",
+                data: {
+                    'officer_id': officerId
+                },
+                success: function(response) {
+                    $("#officerDetails").show();
+                    $("#officerFirstName").text(response.first_name);
+                    $("#officerLastName").text(response.last_name);
+                    $("#officerGender").text(response.gender);
+                    $("#officerDOB").text(response.date_of_birth);
+                    $("#officerEmail").text(response.email);
+                    $("#officerPhone").text(response.phone);
+                    $("#officerAddress").text(response.address);
+                    $("#officerdate_joined").text(response.date_joined);
+                    $("#officerPicture").attr("src", response.picture || "{% static 'img/figure/user.jpg' %}");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching officer details:", status, error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

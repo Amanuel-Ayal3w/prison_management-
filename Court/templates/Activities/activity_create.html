@@ -1,0 +1,132 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+{% load static %}
+{% include 'includes/head.html' %}
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    
+    <div id="wrapper" class="wrapper bg-ash">
+        <!-- Header Menu Area Start Here -->
+        {% include 'includes/header.html' %}
+        <!-- Header Menu Area End Here -->
+        <!-- Page Area Start Here -->
+        <div class="dashboard-page-one">
+            <!-- Sidebar Area Start Here -->
+            {% include 'includes/court_sidebar.html' %}
+            <!-- Sidebar Area End Here -->
+            <div class="dashboard-content-one">
+                <!-- Breadcubs Area Start Here -->
+                <div class="breadcrumbs-area">
+                    <h3>Activity</h3>
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>Add Activity </li>
+                    </ul>
+                </div>
+                <!-- prisoner_form.html -->
+                <div class="card height-auto">
+                    <div class="card-body">
+                        <div class="heading-layout1">
+                            <div class="item-title">
+                                <h3>Add Activity for {{prisoner.pri_fname}} {{prisoner.pri_mname}} </h3>
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="{% url 'activity_list' prisoner_id=prisoner.pk %}"><i class="fas fa-plus text-dark-pastel-green"></i>List Activity</a>
+                                </div>
+                            </div>
+                        </div>
+                        <form id="activity-form" action="{% if activity %}{% url 'update_activity' prisoner_id=prisoner.pk activity_id=activity.pk %}{% else %}{% url 'create_activity' prisoner_id=prisoner.pk %}{% endif %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="activity_type">Activity Type</label>
+                                    {{form.activity_type}}
+                                    {{form.errors.activity_type}}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="description">Description</label>
+                                    {{form.description}}
+                                    {{form.errors.description}}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="start_time">Start Time</label>
+                                    {{form.start_time}}
+                                    {{form.errors.start_time}}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="end_time">End Time</label>
+                                    {{form.end_time}}
+                                    {{form.errors.end_time}}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="location">Location</label>
+                                    {{form.location}}
+                                    {{form.errors.location}}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="assigned_staff">Assigned Staff</label>
+                                    {{form.assigned_staff}}
+                                    {{form.errors.assigned_staff}}
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label for="status">Status</label>
+                                   {{form.status}}
+                                   {{form.errors.status}}
+                                </div>
+                                <div class="col-12 form-group mg-t-8">
+                                    <button type="submit" id='saveButton' class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                                    <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                        <script>
+                                // JavaScript to handle AJAX form submission and Toastr notifications
+                                $(document).ready(function() {
+                                $('#activity-form').on('submit', function(e) {
+                                    e.preventDefault();  // Prevent the form from submitting normally
+                                    let form = $(this);
+                                    let url = form.attr('action');
+                                    let formData = form.serialize();
+                                
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: url,
+                                        data: formData,
+                                        success: function(response) {
+                                            if (response.status === 'success') {
+                                                toastr.success(response.message);
+                                                form.trigger('reset');  // Reset form fields
+                                            } else {
+                                                toastr.error(response.message);
+                                                if (response.errors) {
+                                                    // Optional: Show specific form errors, if any
+                                                    console.error('Form errors:', response.errors);
+                                                }
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            toastr.error('An error occurred while processing your request.');
+                                            console.error('Error:', error);
+                                        }
+                                    });
+                                });
+                            });
+                        </script>                      
+                    </div>
+                </div>
+       <!-- Admit Form Area End Here -->
+         {% include 'includes/footer_copyright.html' %}
+            </div>
+        </div>
+        <!-- Page Area End Here -->
+    </div>
+    {% include 'includes/footer.html' %}
+</body>
+</html>
